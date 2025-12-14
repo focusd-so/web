@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { StytchUIClient } from "@stytch/vanilla-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -16,35 +14,18 @@ export const Route = createFileRoute("/callback/signup/app")({
 function CallbackSignupAppPage() {
   const { token, token_type } = Route.useSearch();
 
-  const publicToken = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN as
-    | string
-    | undefined;
-  
-  const stytch = useMemo(() => {
-    if (!publicToken) return null;
-    try {
-      return new StytchUIClient(publicToken);
-    } catch {
-      return null;
-    }
-  }, [publicToken]);
-
-  // Authenticate with Stytch
-  const authQuery = useQuery({
-    queryKey: ["stytch-authenticate-app", token, token_type],
-    enabled: Boolean(stytch && token),
+  const deepLink = useQuery({
+    queryKey: ["signup-deep-link", token, token_type],
     queryFn: async () => {
-      if (!stytch || !token) throw new Error("Missing requirements");
+      if (!token) throw new Error("Missing token");
       
-      // Depending on token_type, we might need different handling, 
-      // but usually oauth.authenticate handles the token returned from OAuth flows.
-      // The previous code used stytch.oauth.authenticate(token, ...)
+      const params = new URLSearchParams();
+      params.set("token", token);
+      params.set("stytch_token_type", token_type || "oauth");
       
-      const response = await stytch.oauth.authenticate(token, {
-        session_duration_minutes: 300 * 24 * 30, // 300 days
-      });
-      return response;
+      return `focusd://auth/callback?${params.toString()}`;
     },
+    enabled: !!token,
     retry: false,
     staleTime: Infinity,
     refetchOnMount: false,
@@ -52,27 +33,15 @@ function CallbackSignupAppPage() {
     refetchOnReconnect: false,
   });
 
-  // Redirect logic
-  const redirectUrl = useMemo(() => {
-    if (!authQuery.isSuccess || !authQuery.data) return null;
-    
-    const data = authQuery.data;
-    const sessionJwt = data.session_jwt;
-    const sessionToken = data.session_token;
-    
-    const url = new URL("http://localhost:12000/login/callback");
-    if (sessionJwt) url.searchParams.set("session_jwt", sessionJwt);
-    if (sessionToken) url.searchParams.set("session_token", sessionToken);
-    
-    return url.toString();
-  }, [authQuery.isSuccess, authQuery.data]);
+  const { data: deepLinkUrl, isLoading } = deepLink;
 
-  const redirectQuery = useQuery({
-    queryKey: ["redirect-app", redirectUrl],
-    enabled: Boolean(redirectUrl),
+  // Best-effort auto-redirect
+  useQuery({
+    queryKey: ["signup-redirect-app", deepLinkUrl],
+    enabled: Boolean(deepLinkUrl),
     queryFn: async () => {
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
+      if (deepLinkUrl) {
+        window.location.href = deepLinkUrl;
       }
       return true;
     },
@@ -98,19 +67,12 @@ function CallbackSignupAppPage() {
     );
   }
 
-  if (authQuery.isError) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-red-500">Authentication Failed</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              {(authQuery.error as Error).message}
-            </p>
-          </CardContent>
-        </Card>
+        <div className="text-center">
+          <p className="text-muted-foreground">Preparing redirect...</p>
+        </div>
       </div>
     );
   }
@@ -119,24 +81,18 @@ function CallbackSignupAppPage() {
     <div className="min-h-screen flex items-center justify-center p-8">
       <Card className="w-full max-w-md text-center">
         <CardHeader>
-          <CardTitle>
-            {redirectQuery.isLoading || authQuery.isLoading
-              ? "Authenticating..."
-              : "Authentication Successful"}
-          </CardTitle>
+          <CardTitle>Open Focusd to continue</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground mb-4">
-            {redirectQuery.isLoading || authQuery.isLoading
-              ? "Please wait while we log you in..."
-              : "Redirecting you to the app..."}
+            Click the button below to open the Focusd app and complete your signup.
           </p>
-          {redirectUrl && (
+          {deepLinkUrl && (
             <Button
-              onClick={() => (window.location.href = redirectUrl)}
+              onClick={() => (window.location.href = deepLinkUrl)}
               className="w-full"
             >
-              Open App Manually
+              Open Focusd
             </Button>
           )}
         </CardContent>
@@ -144,4 +100,3 @@ function CallbackSignupAppPage() {
     </div>
   );
 }
-
