@@ -126,23 +126,43 @@ function CallbackSignupAppPage() {
 
   if (authQuery.isError && authQuery.error) {
     const error = authQuery.error;
-    const errorMessage = error instanceof Error 
+    const rawErrorMessage = error instanceof Error 
       ? error.message 
       : typeof error === 'string'
       ? error
       : 'An unknown authentication error occurred';
     
+    // Check if this is a replay/expired token error
+    const isReplayError = rawErrorMessage.includes('oauth_auth_code_error') || 
+                          rawErrorMessage.includes('replay');
+    
+    const errorTitle = isReplayError 
+      ? "Link Expired or Already Used" 
+      : "Authentication Failed";
+    
+    const errorMessage = isReplayError
+      ? "This authentication link has already been used or has expired. Please try signing in again."
+      : rawErrorMessage;
+    
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-red-500">Authentication Failed</CardTitle>
+            <CardTitle className="text-red-500">{errorTitle}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground mb-2">
+            <p className="text-muted-foreground mb-4">
               {errorMessage}
             </p>
-            {error instanceof Error && error.stack && (
+            {isReplayError && (
+              <Button
+                onClick={() => window.location.href = '/login/app'}
+                className="w-full"
+              >
+                Try Again
+              </Button>
+            )}
+            {!isReplayError && error instanceof Error && error.stack && (
               <details className="mt-4">
                 <summary className="text-sm text-muted-foreground cursor-pointer">
                   Technical Details
