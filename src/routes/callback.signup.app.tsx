@@ -32,7 +32,7 @@ function CallbackSignupAppPage() {
   // Authenticate with Stytch
   const authQuery = useQuery({
     queryKey: ["stytch-authenticate-app", token, token_type],
-    enabled: Boolean(stytch && token && token_type),
+    enabled: Boolean(stytch && token),
     queryFn: async () => {
       if (!stytch || !token) throw new Error("Missing requirements");
       
@@ -60,7 +60,7 @@ function CallbackSignupAppPage() {
     const sessionJwt = data.session_jwt;
     const sessionToken = data.session_token;
     
-    const url = new URL("http://localhost:12000/auth/callback");
+    const url = new URL("http://localhost:12000/login/callback");
     if (sessionJwt) url.searchParams.set("session_jwt", sessionJwt);
     if (sessionToken) url.searchParams.set("session_token", sessionToken);
     
