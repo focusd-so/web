@@ -75,7 +75,7 @@ function CallbackSignupAppPage() {
     refetchOnReconnect: false,
   });
 
-  const { data: deepLinkUrl, isLoading } = deepLink;
+  const { data: deepLinkUrl, isLoading: isDeepLinkLoading, isError: isDeepLinkError, error: deepLinkError } = deepLink;
 
   // Best-effort auto-redirect
   useQuery({
@@ -109,16 +109,16 @@ function CallbackSignupAppPage() {
     );
   }
 
-  if (authQuery.isError) {
+  if (!publicToken || !stytch) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-red-500">Authentication Failed</CardTitle>
+            <CardTitle className="text-red-500">Configuration Error</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              {(authQuery.error as Error).message}
+              Stytch is not properly configured. Please check your environment variables.
             </p>
           </CardContent>
         </Card>
@@ -126,7 +126,75 @@ function CallbackSignupAppPage() {
     );
   }
 
-  if (authQuery.isLoading || isLoading) {
+  if (authQuery.isError && authQuery.error) {
+    const error = authQuery.error;
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : typeof error === 'string'
+      ? error
+      : 'An unknown authentication error occurred';
+    
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-red-500">Authentication Failed</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-2">
+              {errorMessage}
+            </p>
+            {error instanceof Error && error.stack && (
+              <details className="mt-4">
+                <summary className="text-sm text-muted-foreground cursor-pointer">
+                  Technical Details
+                </summary>
+                <pre className="mt-2 text-xs bg-muted p-2 rounded overflow-auto max-h-40">
+                  {error.stack}
+                </pre>
+              </details>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (isDeepLinkError && deepLinkError) {
+    const error = deepLinkError;
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : typeof error === 'string'
+      ? error
+      : 'An unknown error occurred while preparing the redirect';
+    
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-red-500">Redirect Error</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-2">
+              {errorMessage}
+            </p>
+            {error instanceof Error && error.stack && (
+              <details className="mt-4">
+                <summary className="text-sm text-muted-foreground cursor-pointer">
+                  Technical Details
+                </summary>
+                <pre className="mt-2 text-xs bg-muted p-2 rounded overflow-auto max-h-40">
+                  {error.stack}
+                </pre>
+              </details>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (authQuery.isLoading || isDeepLinkLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
         <div className="text-center">
