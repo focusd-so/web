@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ComplianceRouteImport } from './routes/compliance'
@@ -31,6 +32,11 @@ import { Route as CallbackSignupAppRouteImport } from './routes/callback.signup.
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -59,29 +65,29 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const ProfileTasksRoute = ProfileTasksRouteImport.update({
-  id: '/profile/tasks',
-  path: '/profile/tasks',
-  getParentRoute: () => rootRouteImport,
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const ProfileSessionsHistoryRoute = ProfileSessionsHistoryRouteImport.update({
-  id: '/profile/sessions-history',
-  path: '/profile/sessions-history',
-  getParentRoute: () => rootRouteImport,
+  id: '/sessions-history',
+  path: '/sessions-history',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const ProfileScreenTimeRoute = ProfileScreenTimeRouteImport.update({
-  id: '/profile/screen-time',
-  path: '/profile/screen-time',
-  getParentRoute: () => rootRouteImport,
+  id: '/screen-time',
+  path: '/screen-time',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const ProfileConnectedAppsRoute = ProfileConnectedAppsRouteImport.update({
-  id: '/profile/connected-apps',
-  path: '/profile/connected-apps',
-  getParentRoute: () => rootRouteImport,
+  id: '/connected-apps',
+  path: '/connected-apps',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const LoginWebRoute = LoginWebRouteImport.update({
   id: '/web',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/compliance': typeof ComplianceRouteWithChildren
   '/login': typeof LoginRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
@@ -135,7 +142,7 @@ export interface FileRoutesByFullPath {
   '/profile/screen-time': typeof ProfileScreenTimeRoute
   '/profile/sessions-history': typeof ProfileSessionsHistoryRoute
   '/profile/tasks': typeof ProfileTasksRoute
-  '/profile': typeof ProfileIndexRoute
+  '/profile/': typeof ProfileIndexRoute
   '/callback/signup/app': typeof CallbackSignupAppRoute
   '/callback/signup/web': typeof CallbackSignupWebRoute
 }
@@ -166,6 +173,7 @@ export interface FileRoutesById {
   '/compliance': typeof ComplianceRouteWithChildren
   '/login': typeof LoginRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
@@ -188,6 +196,7 @@ export interface FileRouteTypes {
     | '/compliance'
     | '/login'
     | '/privacy'
+    | '/profile'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
@@ -198,7 +207,7 @@ export interface FileRouteTypes {
     | '/profile/screen-time'
     | '/profile/sessions-history'
     | '/profile/tasks'
-    | '/profile'
+    | '/profile/'
     | '/callback/signup/app'
     | '/callback/signup/web'
   fileRoutesByTo: FileRoutesByTo
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/compliance'
     | '/login'
     | '/privacy'
+    | '/profile'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
@@ -249,13 +259,9 @@ export interface RootRouteChildren {
   ComplianceRoute: typeof ComplianceRouteWithChildren
   LoginRoute: typeof LoginRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
+  ProfileRoute: typeof ProfileRouteWithChildren
   TermsRoute: typeof TermsRoute
   ConnectCallbackRoute: typeof ConnectCallbackRoute
-  ProfileConnectedAppsRoute: typeof ProfileConnectedAppsRoute
-  ProfileScreenTimeRoute: typeof ProfileScreenTimeRoute
-  ProfileSessionsHistoryRoute: typeof ProfileSessionsHistoryRoute
-  ProfileTasksRoute: typeof ProfileTasksRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
   CallbackSignupAppRoute: typeof CallbackSignupAppRoute
   CallbackSignupWebRoute: typeof CallbackSignupWebRoute
 }
@@ -267,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -306,38 +319,38 @@ declare module '@tanstack/react-router' {
     }
     '/profile/': {
       id: '/profile/'
-      path: '/profile'
-      fullPath: '/profile'
+      path: '/'
+      fullPath: '/profile/'
       preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/profile/tasks': {
       id: '/profile/tasks'
-      path: '/profile/tasks'
+      path: '/tasks'
       fullPath: '/profile/tasks'
       preLoaderRoute: typeof ProfileTasksRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/profile/sessions-history': {
       id: '/profile/sessions-history'
-      path: '/profile/sessions-history'
+      path: '/sessions-history'
       fullPath: '/profile/sessions-history'
       preLoaderRoute: typeof ProfileSessionsHistoryRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/profile/screen-time': {
       id: '/profile/screen-time'
-      path: '/profile/screen-time'
+      path: '/screen-time'
       fullPath: '/profile/screen-time'
       preLoaderRoute: typeof ProfileScreenTimeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/profile/connected-apps': {
       id: '/profile/connected-apps'
-      path: '/profile/connected-apps'
+      path: '/connected-apps'
       fullPath: '/profile/connected-apps'
       preLoaderRoute: typeof ProfileConnectedAppsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/login/web': {
       id: '/login/web'
@@ -417,19 +430,34 @@ const LoginRouteChildren: LoginRouteChildren = {
 
 const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
 
+interface ProfileRouteChildren {
+  ProfileConnectedAppsRoute: typeof ProfileConnectedAppsRoute
+  ProfileScreenTimeRoute: typeof ProfileScreenTimeRoute
+  ProfileSessionsHistoryRoute: typeof ProfileSessionsHistoryRoute
+  ProfileTasksRoute: typeof ProfileTasksRoute
+  ProfileIndexRoute: typeof ProfileIndexRoute
+}
+
+const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfileConnectedAppsRoute: ProfileConnectedAppsRoute,
+  ProfileScreenTimeRoute: ProfileScreenTimeRoute,
+  ProfileSessionsHistoryRoute: ProfileSessionsHistoryRoute,
+  ProfileTasksRoute: ProfileTasksRoute,
+  ProfileIndexRoute: ProfileIndexRoute,
+}
+
+const ProfileRouteWithChildren =
+  ProfileRoute._addFileChildren(ProfileRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlockedRoute: BlockedRoute,
   ComplianceRoute: ComplianceRouteWithChildren,
   LoginRoute: LoginRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
+  ProfileRoute: ProfileRouteWithChildren,
   TermsRoute: TermsRoute,
   ConnectCallbackRoute: ConnectCallbackRoute,
-  ProfileConnectedAppsRoute: ProfileConnectedAppsRoute,
-  ProfileScreenTimeRoute: ProfileScreenTimeRoute,
-  ProfileSessionsHistoryRoute: ProfileSessionsHistoryRoute,
-  ProfileTasksRoute: ProfileTasksRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
   CallbackSignupAppRoute: CallbackSignupAppRoute,
   CallbackSignupWebRoute: CallbackSignupWebRoute,
 }

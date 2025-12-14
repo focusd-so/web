@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Clock, History, Boxes, ListTodo } from "lucide-react";
 
-// export const Route = createFileRoute("/profile")({
-//   component: ProfilePage,
-// });
+export const Route = createFileRoute("/profile")({
+  component: ProfilePage,
+});
 
 function ProfilePage() {
   const menuItems = [
