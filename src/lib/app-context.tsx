@@ -4,7 +4,7 @@ import { createConnectTransport } from "@connectrpc/connect-web";
 import { APIService } from "@/gen/proto/api/v1/service_pb";
 
 const transport = createConnectTransport({
-  baseUrl: "https://api.focusd.work",
+  baseUrl: "https://api.focusd.so",
 });
 
 const apiService = createClient(APIService, transport);
