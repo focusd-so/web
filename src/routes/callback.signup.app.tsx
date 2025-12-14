@@ -9,12 +9,12 @@ export const Route = createFileRoute("/callback/signup/app")({
   component: CallbackSignupAppPage,
   validateSearch: (search: Record<string, unknown>) => ({
     token: (search.token as string | undefined) || undefined,
-    token_type: (search.token_type as string | undefined) || undefined,
+    stytch_token_type: (search.stytch_token_type as string | undefined) || undefined,
   }),
 });
 
 function CallbackSignupAppPage() {
-  const { token, token_type } = Route.useSearch();
+  const { token, stytch_token_type } = Route.useSearch();
 
   const publicToken = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN as
     | string
@@ -31,8 +31,8 @@ function CallbackSignupAppPage() {
 
   // Authenticate to get session_token and session_jwt
   const authQuery = useQuery({
-    queryKey: ["stytch-authenticate-app", token, token_type],
-    enabled: Boolean(stytch && token && token_type),
+    queryKey: ["stytch-authenticate-app", token, stytch_token_type],
+    enabled: Boolean(stytch && token && stytch_token_type),
     queryFn: async () => {
       if (!stytch || !token) throw new Error("Missing requirements");
       
@@ -77,23 +77,6 @@ function CallbackSignupAppPage() {
 
   const { data: deepLinkUrl, isLoading: isDeepLinkLoading, isError: isDeepLinkError, error: deepLinkError } = deepLink;
 
-  // Best-effort auto-redirect
-  useQuery({
-    queryKey: ["signup-redirect-app", deepLinkUrl],
-    enabled: Boolean(deepLinkUrl),
-    queryFn: async () => {
-      if (deepLinkUrl) {
-        window.location.href = deepLinkUrl;
-      }
-      return true;
-    },
-    retry: false,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
-
   if (!token) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
@@ -103,6 +86,21 @@ function CallbackSignupAppPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">No token provided in the URL.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!stytch_token_type) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Missing Token Type</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">No stytch_token_type provided in the URL.</p>
           </CardContent>
         </Card>
       </div>
@@ -206,6 +204,38 @@ function CallbackSignupAppPage() {
     );
   }
 
+  // If auth query is not enabled (shouldn't happen due to checks above, but safety check)
+  if (!authQuery.isSuccess && !authQuery.isLoading && !authQuery.isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Waiting for Authentication</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              Please wait while we authenticate...
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Debug logging (remove in production if needed)
+  if (typeof window !== 'undefined') {
+    console.log('Callback state:', {
+      authQuerySuccess: authQuery.isSuccess,
+      authQueryData: authQuery.data ? 'present' : 'missing',
+      deepLinkUrl: deepLinkUrl ? 'present' : 'missing',
+      isDeepLinkLoading,
+      isDeepLinkError,
+      deepLinkData: deepLink.data,
+    });
+  }
+
+  // If we have a deeplink URL, show the button
+  // If not, show a message (shouldn't happen if auth succeeded)
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
       <Card className="w-full max-w-md text-center">
@@ -216,13 +246,22 @@ function CallbackSignupAppPage() {
           <p className="text-muted-foreground mb-4">
             Click the button below to open the Focusd app and complete your signup.
           </p>
-          {deepLinkUrl && (
+          {deepLinkUrl ? (
             <Button
-              onClick={() => (window.location.href = deepLinkUrl)}
+              onClick={() => {
+                console.log('Opening deeplink:', deepLinkUrl);
+                window.location.href = deepLinkUrl;
+              }}
               className="w-full"
             >
               Open Focusd
             </Button>
+          ) : (
+            <div className="text-sm text-muted-foreground">
+              {authQuery.isSuccess 
+                ? "Preparing redirect link..." 
+                : "Waiting for authentication..."}
+            </div>
           )}
         </CardContent>
       </Card>
