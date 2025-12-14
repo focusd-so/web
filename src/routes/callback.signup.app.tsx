@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { StytchUIClient } from "@stytch/vanilla-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -14,18 +16,58 @@ export const Route = createFileRoute("/callback/signup/app")({
 function CallbackSignupAppPage() {
   const { token, token_type } = Route.useSearch();
 
-  const deepLink = useQuery({
-    queryKey: ["signup-deep-link", token, token_type],
+  const publicToken = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN as
+    | string
+    | undefined;
+
+  const stytch = useMemo(() => {
+    if (!publicToken) return null;
+    try {
+      return new StytchUIClient(publicToken);
+    } catch {
+      return null;
+    }
+  }, [publicToken]);
+
+  // Authenticate to get session_token and session_jwt
+  const authQuery = useQuery({
+    queryKey: ["stytch-authenticate-app", token, token_type],
+    enabled: Boolean(stytch && token && token_type),
     queryFn: async () => {
-      if (!token) throw new Error("Missing token");
+      if (!stytch || !token) throw new Error("Missing requirements");
+      
+      const response = await stytch.oauth.authenticate(token, {
+        session_duration_minutes: 60,
+      });
+      return response;
+    },
+    retry: false,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
+
+  // Build deeplink with session tokens
+  const deepLink = useQuery({
+    queryKey: ["signup-deep-link", authQuery.data],
+    queryFn: async () => {
+      if (!authQuery.data) throw new Error("Authentication not completed");
+      
+      const sessionToken = authQuery.data.session_token;
+      const sessionJwt = authQuery.data.session_jwt;
+      
+      if (!sessionToken || !sessionJwt) {
+        throw new Error("Missing session tokens from authentication response");
+      }
       
       const params = new URLSearchParams();
-      params.set("token", token);
-      params.set("stytch_token_type", token_type || "oauth");
+      params.set("session_token", sessionToken);
+      params.set("session_jwt", sessionJwt);
       
       return `focusd://auth/callback?${params.toString()}`;
     },
-    enabled: !!token,
+    enabled: authQuery.isSuccess && !!authQuery.data,
     retry: false,
     staleTime: Infinity,
     refetchOnMount: false,
@@ -67,11 +109,30 @@ function CallbackSignupAppPage() {
     );
   }
 
-  if (isLoading) {
+  if (authQuery.isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-red-500">Authentication Failed</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              {(authQuery.error as Error).message}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (authQuery.isLoading || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
         <div className="text-center">
-          <p className="text-muted-foreground">Preparing redirect...</p>
+          <p className="text-muted-foreground">
+            {authQuery.isLoading ? "Authenticating..." : "Preparing redirect..."}
+          </p>
         </div>
       </div>
     );
