@@ -149,11 +149,11 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
           {/* Terms and Privacy */}
           <p className="text-xs text-muted-foreground text-center mt-6">
             By clicking continue, you agree to our{" "}
-            <a href="#" className="underline hover:text-foreground">
+            <a href="/terms" className="underline hover:text-foreground">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="underline hover:text-foreground">
+            <a href="/privacy" className="underline hover:text-foreground">
               Privacy Policy
             </a>
             .
@@ -169,4 +169,3 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
     </div>
   );
 }
-
