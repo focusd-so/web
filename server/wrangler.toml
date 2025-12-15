@@ -9,6 +9,8 @@ port = 8787
 # Environment variables (non-secret)
 [vars]
 ALLOWED_ORIGINS = "http://localhost:3000,https://focusd.so"
+PROMPT_DESKTOP = "Classify this application based on its title, bundle ID, and app name. Provide a JSON output with 'category' (e.g., 'Productivity', 'Social', 'Gaming'), 'tags' (array of strings), and 'description'. If you cannot classify, use 'Unknown'."
+PROMPT_WEBSITE = "Classify this website based on its URL, title, and description. Provide a JSON output with 'category' (e.g., 'News', 'E-commerce', 'Blog'), 'tags' (array of strings), and 'description'. If you cannot classify, use 'Unknown'."
 
 # Production environment
 [env.production]
@@ -17,4 +19,6 @@ name = "focusd-auth-production"
 # Note: Secrets must be set via wrangler CLI:
 # wrangler secret put CLERK_SECRET_KEY
 # wrangler secret put JWT_SECRET
+# wrangler secret put GOOGLE_API_KEY
+
 

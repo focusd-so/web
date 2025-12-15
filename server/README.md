@@ -88,3 +88,4 @@ Health check endpoint.
 | `JWT_SECRET` | Secret key for signing JWT tokens | Wrangler secret |
 | `ALLOWED_ORIGINS` | Comma-separated list of allowed CORS origins | `wrangler.toml` |
 
+

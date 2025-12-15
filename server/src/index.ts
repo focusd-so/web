@@ -1,9 +1,13 @@
 import { verifyToken, createClerkClient } from "@clerk/backend";
+import { handleClassification } from "./classify";
 
 export interface Env {
   CLERK_SECRET_KEY: string;
   CLERK_JWT_KEY?: string;
   ALLOWED_ORIGINS: string;
+  GOOGLE_API_KEY?: string;
+  PROMPT_DESKTOP?: string;
+  PROMPT_WEBSITE?: string;
 }
 
 // CORS headers helper
@@ -122,6 +126,10 @@ export default {
     // Route handling
     if (pathname === "/createSignInToken" && method === "POST") {
       return createSignInToken(request, env);
+    }
+
+    if (pathname === "/classify" && method === "POST") {
+      return handleClassification(request, env);
     }
 
     // Health check endpoint
