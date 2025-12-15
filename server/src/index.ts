@@ -8,6 +8,7 @@ export interface Env {
   GOOGLE_API_KEY?: string;
   PROMPT_DESKTOP?: string;
   PROMPT_WEBSITE?: string;
+  CLASSIFICATION_CACHE: KVNamespace;
 }
 
 // CORS headers helper

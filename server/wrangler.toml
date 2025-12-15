@@ -6,6 +6,12 @@ compatibility_date = "2024-01-01"
 [dev]
 port = 8787
 
+# KV Namespace bindings
+[[kv_namespaces]]
+binding = "CLASSIFICATION_CACHE"
+id = "CLASSIFICATION_CACHE_DEV"
+preview_id = "CLASSIFICATION_CACHE_DEV"
+
 # Environment variables (non-secret)
 [vars]
 ALLOWED_ORIGINS = "http://localhost:3000,https://focusd.so"
@@ -16,9 +22,17 @@ PROMPT_WEBSITE = "Classify this website based on its URL, title, and description
 [env.production]
 name = "focusd-auth-production"
 
+[[env.production.kv_namespaces]]
+binding = "CLASSIFICATION_CACHE"
+id = "CLASSIFICATION_CACHE_PROD"
+
 # Note: Secrets must be set via wrangler CLI:
 # wrangler secret put CLERK_SECRET_KEY
 # wrangler secret put JWT_SECRET
 # wrangler secret put GOOGLE_API_KEY
+# 
+# Note: Create KV namespaces via wrangler CLI:
+# wrangler kv:namespace create CLASSIFICATION_CACHE
+# wrangler kv:namespace create CLASSIFICATION_CACHE --env production
 
 

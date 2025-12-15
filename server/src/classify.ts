@@ -2,6 +2,29 @@ import { verifyToken, createClerkClient } from "@clerk/backend";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Env } from "./index";
 
+// Cache TTL: 24 hours in seconds
+const CACHE_TTL_SECONDS = 86400;
+
+// Generate SHA-256 hash for cache key
+async function generateCacheKey(
+  prompt: string,
+  contextData: object
+): Promise<string> {
+  // Sort keys for deterministic serialization
+  const sortedData = JSON.stringify(contextData, Object.keys(contextData).sort());
+  const input = `${prompt}:${sortedData}`;
+  
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  
+  // Convert to hex string
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  
+  return hashHex;
+}
+
 // Define input types
 interface AppInput {
   type: "app";
@@ -191,7 +214,24 @@ export async function handleClassification(
     });
   }
 
-  // // 6. Generate and Stream
+  // 6. Check cache before calling LLM
+  const cacheKey = await generateCacheKey(prompt, contextData);
+  
+  try {
+    const cachedResult = await env.CLASSIFICATION_CACHE.get(cacheKey);
+    if (cachedResult) {
+      // Return cached result
+      return new Response(JSON.stringify({ result: cachedResult, cached: true }), {
+        status: 200,
+        headers: { ...headers, "Content-Type": "application/json" },
+      });
+    }
+  } catch (e) {
+    // Cache read error - continue to LLM call
+    console.error("Cache read error:", e);
+  }
+
+  // 7. Generate with LLM (cache miss)
   try {
     const result = await model.generateContent({
       systemInstruction: prompt,
@@ -214,8 +254,17 @@ export async function handleClassification(
       .replace(/```/g, "")
       .trim();
 
+    // 8. Store result in cache (non-blocking, ignore errors)
+    try {
+      await env.CLASSIFICATION_CACHE.put(cacheKey, text, {
+        expirationTtl: CACHE_TTL_SECONDS,
+      });
+    } catch (e) {
+      console.error("Cache write error:", e);
+    }
+
     // Return JSON
-    return new Response(JSON.stringify({ result: text }), {
+    return new Response(JSON.stringify({ result: text, cached: false }), {
       status: 200,
       headers: { ...headers, "Content-Type": "application/json" },
     });
