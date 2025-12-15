@@ -21,7 +21,7 @@ declare module "@tanstack/react-router" {
 // Create a client
 const queryClient = new QueryClient();
 
-const stytch = createStytchUIClient(import.meta.env.VITE_STYTCH_PUBLIC_TOKEN);
+const stytch = createStytchUIClient("public-token-live-fa4a7a8f-495c-486c-b990-a13eb603651f");
 function App() {
   return (
     <StytchProvider stytch={stytch}>
