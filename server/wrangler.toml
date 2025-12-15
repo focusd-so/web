@@ -9,8 +9,8 @@ port = 8787
 # KV Namespace bindings
 [[kv_namespaces]]
 binding = "CLASSIFICATION_CACHE"
-id = "CLASSIFICATION_CACHE_DEV"
-preview_id = "CLASSIFICATION_CACHE_DEV"
+id = "0fdc9bde7f824a1ba8f490661847ffbb"
+preview_id = "6822a5cd55ee40f090c7f72ee56f67fd"
 
 # Environment variables (non-secret)
 [vars]
@@ -24,7 +24,7 @@ name = "focusd-auth-production"
 
 [[env.production.kv_namespaces]]
 binding = "CLASSIFICATION_CACHE"
-id = "CLASSIFICATION_CACHE_PROD"
+id = "1b9b35d9e52e4c3dbce5160eca5fc465"
 
 # Note: Secrets must be set via wrangler CLI:
 # wrangler secret put CLERK_SECRET_KEY
