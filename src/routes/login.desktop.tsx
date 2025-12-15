@@ -7,7 +7,6 @@ export const Route = createFileRoute("/login/desktop")({
 
 function DesktopLoginPage() {
   const callbackUrl = "/sso-callback?source=desktop";
-  console.log("callbackUrl desktop", callbackUrl);
 
   return <LoginForm callbackUrl={callbackUrl} />;
 }

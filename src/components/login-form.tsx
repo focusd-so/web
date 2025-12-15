@@ -8,7 +8,6 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ callbackUrl }: LoginFormProps) {
-  console.log("callbackUrl xxx", callbackUrl);
   const { signIn, isLoaded } = useSignIn();
   const { signOut } = useClerk();
   const { isSignedIn } = useAuth();
