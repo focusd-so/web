@@ -1,34 +1,41 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { RouterProvider } from '@tanstack/react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider } from '@/components/theme-provider'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/components/theme-provider";
+import { StytchProvider } from "@stytch/react";
+import { createStytchUIClient } from "@stytch/react/ui";
 
-import { createRouter } from './router'
+import { createRouter } from "./router";
 
 // Create a new router instance
-const router = createRouter()
+const router = createRouter();
 
 // Register the router instance for type safety
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
-    router: typeof router
+    router: typeof router;
   }
 }
 
 // Create a client
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
+const stytch = createStytchUIClient(import.meta.env.VITE_STYTCH_PUBLIC_TOKEN);
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </QueryClientProvider>
-  )
+    <StytchProvider stytch={stytch}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </StytchProvider>
+  );
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <App />
-)
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
