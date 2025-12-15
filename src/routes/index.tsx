@@ -196,7 +196,8 @@ function HomePage() {
               </h2>
 
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed text-center">
-                Sync your daily apps and get AI-powered summaries of what matters most—automatically.
+                Sync your daily apps and get AI-powered summaries of what
+                matters most—automatically.
               </p>
             </div>
 

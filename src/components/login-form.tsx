@@ -1,55 +1,56 @@
-import { useMemo } from "react";
-import { StytchUIClient } from "@stytch/vanilla-js";
+import { useSignIn, useClerk, useAuth } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useCallback } from "react";
 
 interface LoginFormProps {
   callbackUrl: string;
 }
 
 export function LoginForm({ callbackUrl }: LoginFormProps) {
-  const publicToken = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN as
-    | string
-    | undefined;
-  const stytch = useMemo(() => {
-    if (!publicToken) return null;
-    try {
-      return new StytchUIClient(publicToken);
-    } catch {
-      return null;
-    }
-  }, [publicToken]);
+  console.log("callbackUrl xxx", callbackUrl);
+  const { signIn, isLoaded } = useSignIn();
+  const { signOut } = useClerk();
+  const { isSignedIn } = useAuth();
 
-  const handleGoogleSignIn = async () => {
-    if (stytch) {
-      const response = await stytch.oauth.google.start({
-        login_redirect_url: callbackUrl,
-        signup_redirect_url: callbackUrl,
-      });
-
-      console.log(response);
+  const loginWithGoogle = useCallback(async () => {
+    if (!signIn) return;
+    // Sign out first if already signed in
+    if (isSignedIn) {
+      await signOut();
     }
-  };
+    signIn.authenticateWithRedirect({
+      strategy: "oauth_google",
+      redirectUrl: "/sso-callback",
+      redirectUrlComplete: callbackUrl,
+    });
+  }, [signIn, signOut, isSignedIn, callbackUrl]);
 
-  const handleGitHubSignIn = async () => {
-    if (stytch) {
-      const response = await stytch.oauth.github.start({
-        login_redirect_url: callbackUrl,
-        signup_redirect_url: callbackUrl,
-      });
-      console.log(response);
+  const loginWithGitHub = useCallback(async () => {
+    if (!signIn) return;
+    // Sign out first if already signed in
+    if (isSignedIn) {
+      await signOut();
     }
-  };
+    signIn.authenticateWithRedirect({
+      strategy: "oauth_github",
+      redirectUrl: "/sso-callback",
+      redirectUrlComplete: callbackUrl,
+    });
+  }, [signIn, signOut, isSignedIn, callbackUrl]);
 
-  const handleAppleSignIn = async () => {
-    if (stytch) {
-      const response = await stytch.oauth.apple.start({
-        login_redirect_url: callbackUrl,
-        signup_redirect_url: callbackUrl,
-      });
-      console.log(response);
+  const loginWithApple = useCallback(async () => {
+    if (!signIn) return;
+    // Sign out first if already signed in
+    if (isSignedIn) {
+      await signOut();
     }
-  };
+    signIn.authenticateWithRedirect({
+      strategy: "oauth_apple",
+      redirectUrl: "/sso-callback",
+      redirectUrlComplete: callbackUrl,
+    });
+  }, [signIn, signOut, isSignedIn, callbackUrl]);
 
   return (
     <div className="min-h-screen flex">
@@ -84,10 +85,10 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
             <CardContent className="space-y-4">
               {/* Google Button */}
               <Button
-                onClick={handleGoogleSignIn}
+                onClick={loginWithGoogle}
                 variant="outline"
                 className="w-full"
-                disabled={!stytch}
+                disabled={!isLoaded}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path
@@ -112,10 +113,10 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
 
               {/* GitHub Button */}
               <Button
-                onClick={handleGitHubSignIn}
+                onClick={loginWithGitHub}
                 variant="outline"
                 className="w-full"
-                disabled={!stytch}
+                disabled={!isLoaded}
               >
                 <svg
                   className="w-5 h-5 mr-2"
@@ -129,10 +130,10 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
 
               {/* Apple Button */}
               <Button
-                onClick={handleAppleSignIn}
+                onClick={loginWithApple}
                 variant="outline"
                 className="w-full"
-                disabled={!stytch}
+                disabled={!isLoaded}
               >
                 <svg
                   className="w-5 h-5 mr-2"
@@ -158,12 +159,6 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
             </a>
             .
           </p>
-          {!publicToken && (
-            <p className="text-xs text-red-500 text-center mt-2">
-              Stytch public token is not configured. Set
-              VITE_STYTCH_PUBLIC_TOKEN.
-            </p>
-          )}
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useMatch } from "@tanstack/react-router";
 import { LoginForm } from "@/components/login-form";
 
 export const Route = createFileRoute("/login/web")({
-  component: LoginWebPage,
+  component: LoginPage,
 });
 
-function LoginWebPage() {
-  return <LoginForm callbackUrl="https://focusd.so/callback/signup/web" />;
-}
+function LoginPage() {
+  const callbackUrl = "/sso-callback?source=web";
 
+  return <LoginForm callbackUrl={callbackUrl} />;
+}

@@ -10,43 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
-import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as BlockedRouteImport } from './routes/blocked'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile.index'
-import { Route as ProfileTasksRouteImport } from './routes/profile.tasks'
-import { Route as ProfileSessionsHistoryRouteImport } from './routes/profile.sessions-history'
-import { Route as ProfileScreenTimeRouteImport } from './routes/profile.screen-time'
-import { Route as ProfileConnectedAppsRouteImport } from './routes/profile.connected-apps'
 import { Route as LoginWebRouteImport } from './routes/login.web'
-import { Route as LoginAppRouteImport } from './routes/login.app'
-import { Route as ConnectCallbackRouteImport } from './routes/connect.callback'
+import { Route as LoginDesktopRouteImport } from './routes/login.desktop'
 import { Route as ComplianceTermsRouteImport } from './routes/compliance.terms'
 import { Route as CompliancePrivacyRouteImport } from './routes/compliance.privacy'
-import { Route as CallbackSignupWebRouteImport } from './routes/callback.signup.web'
-import { Route as CallbackSignupAppRouteImport } from './routes/callback.signup.app'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const SsoCallbackRoute = SsoCallbackRouteImport.update({
+  id: '/sso-callback',
+  path: '/sso-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceRoute = ComplianceRouteImport.update({
@@ -64,44 +50,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileTasksRoute = ProfileTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileSessionsHistoryRoute = ProfileSessionsHistoryRouteImport.update({
-  id: '/sessions-history',
-  path: '/sessions-history',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileScreenTimeRoute = ProfileScreenTimeRouteImport.update({
-  id: '/screen-time',
-  path: '/screen-time',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileConnectedAppsRoute = ProfileConnectedAppsRouteImport.update({
-  id: '/connected-apps',
-  path: '/connected-apps',
-  getParentRoute: () => ProfileRoute,
-} as any)
 const LoginWebRoute = LoginWebRouteImport.update({
-  id: '/web',
-  path: '/web',
-  getParentRoute: () => LoginRoute,
+  id: '/login/web',
+  path: '/login/web',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const LoginAppRoute = LoginAppRouteImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => LoginRoute,
-} as any)
-const ConnectCallbackRoute = ConnectCallbackRouteImport.update({
-  id: '/connect/callback',
-  path: '/connect/callback',
+const LoginDesktopRoute = LoginDesktopRouteImport.update({
+  id: '/login/desktop',
+  path: '/login/desktop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceTermsRoute = ComplianceTermsRouteImport.update({
@@ -114,79 +70,43 @@ const CompliancePrivacyRoute = CompliancePrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => ComplianceRoute,
 } as any)
-const CallbackSignupWebRoute = CallbackSignupWebRouteImport.update({
-  id: '/callback/signup/web',
-  path: '/callback/signup/web',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CallbackSignupAppRoute = CallbackSignupAppRouteImport.update({
-  id: '/callback/signup/app',
-  path: '/callback/signup/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blocked': typeof BlockedRoute
   '/compliance': typeof ComplianceRouteWithChildren
-  '/login': typeof LoginRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/profile': typeof ProfileRouteWithChildren
+  '/sso-callback': typeof SsoCallbackRoute
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
-  '/connect/callback': typeof ConnectCallbackRoute
-  '/login/app': typeof LoginAppRoute
+  '/login/desktop': typeof LoginDesktopRoute
   '/login/web': typeof LoginWebRoute
-  '/profile/connected-apps': typeof ProfileConnectedAppsRoute
-  '/profile/screen-time': typeof ProfileScreenTimeRoute
-  '/profile/sessions-history': typeof ProfileSessionsHistoryRoute
-  '/profile/tasks': typeof ProfileTasksRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/callback/signup/app': typeof CallbackSignupAppRoute
-  '/callback/signup/web': typeof CallbackSignupWebRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blocked': typeof BlockedRoute
   '/compliance': typeof ComplianceRouteWithChildren
-  '/login': typeof LoginRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/sso-callback': typeof SsoCallbackRoute
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
-  '/connect/callback': typeof ConnectCallbackRoute
-  '/login/app': typeof LoginAppRoute
+  '/login/desktop': typeof LoginDesktopRoute
   '/login/web': typeof LoginWebRoute
-  '/profile/connected-apps': typeof ProfileConnectedAppsRoute
-  '/profile/screen-time': typeof ProfileScreenTimeRoute
-  '/profile/sessions-history': typeof ProfileSessionsHistoryRoute
-  '/profile/tasks': typeof ProfileTasksRoute
-  '/profile': typeof ProfileIndexRoute
-  '/callback/signup/app': typeof CallbackSignupAppRoute
-  '/callback/signup/web': typeof CallbackSignupWebRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/blocked': typeof BlockedRoute
   '/compliance': typeof ComplianceRouteWithChildren
-  '/login': typeof LoginRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/profile': typeof ProfileRouteWithChildren
+  '/sso-callback': typeof SsoCallbackRoute
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
-  '/connect/callback': typeof ConnectCallbackRoute
-  '/login/app': typeof LoginAppRoute
+  '/login/desktop': typeof LoginDesktopRoute
   '/login/web': typeof LoginWebRoute
-  '/profile/connected-apps': typeof ProfileConnectedAppsRoute
-  '/profile/screen-time': typeof ProfileScreenTimeRoute
-  '/profile/sessions-history': typeof ProfileSessionsHistoryRoute
-  '/profile/tasks': typeof ProfileTasksRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/callback/signup/app': typeof CallbackSignupAppRoute
-  '/callback/signup/web': typeof CallbackSignupWebRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -194,76 +114,48 @@ export interface FileRouteTypes {
     | '/'
     | '/blocked'
     | '/compliance'
-    | '/login'
     | '/privacy'
-    | '/profile'
+    | '/sso-callback'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
-    | '/connect/callback'
-    | '/login/app'
+    | '/login/desktop'
     | '/login/web'
-    | '/profile/connected-apps'
-    | '/profile/screen-time'
-    | '/profile/sessions-history'
-    | '/profile/tasks'
-    | '/profile/'
-    | '/callback/signup/app'
-    | '/callback/signup/web'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blocked'
     | '/compliance'
-    | '/login'
     | '/privacy'
+    | '/sso-callback'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
-    | '/connect/callback'
-    | '/login/app'
+    | '/login/desktop'
     | '/login/web'
-    | '/profile/connected-apps'
-    | '/profile/screen-time'
-    | '/profile/sessions-history'
-    | '/profile/tasks'
-    | '/profile'
-    | '/callback/signup/app'
-    | '/callback/signup/web'
   id:
     | '__root__'
     | '/'
     | '/blocked'
     | '/compliance'
-    | '/login'
     | '/privacy'
-    | '/profile'
+    | '/sso-callback'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
-    | '/connect/callback'
-    | '/login/app'
+    | '/login/desktop'
     | '/login/web'
-    | '/profile/connected-apps'
-    | '/profile/screen-time'
-    | '/profile/sessions-history'
-    | '/profile/tasks'
-    | '/profile/'
-    | '/callback/signup/app'
-    | '/callback/signup/web'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlockedRoute: typeof BlockedRoute
   ComplianceRoute: typeof ComplianceRouteWithChildren
-  LoginRoute: typeof LoginRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
-  ProfileRoute: typeof ProfileRouteWithChildren
+  SsoCallbackRoute: typeof SsoCallbackRoute
   TermsRoute: typeof TermsRoute
-  ConnectCallbackRoute: typeof ConnectCallbackRoute
-  CallbackSignupAppRoute: typeof CallbackSignupAppRoute
-  CallbackSignupWebRoute: typeof CallbackSignupWebRoute
+  LoginDesktopRoute: typeof LoginDesktopRoute
+  LoginWebRoute: typeof LoginWebRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -275,11 +167,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
+    '/sso-callback': {
+      id: '/sso-callback'
+      path: '/sso-callback'
+      fullPath: '/sso-callback'
+      preLoaderRoute: typeof SsoCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -287,13 +179,6 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance': {
@@ -317,60 +202,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/profile/': {
-      id: '/profile/'
-      path: '/'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/tasks': {
-      id: '/profile/tasks'
-      path: '/tasks'
-      fullPath: '/profile/tasks'
-      preLoaderRoute: typeof ProfileTasksRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/sessions-history': {
-      id: '/profile/sessions-history'
-      path: '/sessions-history'
-      fullPath: '/profile/sessions-history'
-      preLoaderRoute: typeof ProfileSessionsHistoryRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/screen-time': {
-      id: '/profile/screen-time'
-      path: '/screen-time'
-      fullPath: '/profile/screen-time'
-      preLoaderRoute: typeof ProfileScreenTimeRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/connected-apps': {
-      id: '/profile/connected-apps'
-      path: '/connected-apps'
-      fullPath: '/profile/connected-apps'
-      preLoaderRoute: typeof ProfileConnectedAppsRouteImport
-      parentRoute: typeof ProfileRoute
-    }
     '/login/web': {
       id: '/login/web'
-      path: '/web'
+      path: '/login/web'
       fullPath: '/login/web'
       preLoaderRoute: typeof LoginWebRouteImport
-      parentRoute: typeof LoginRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/login/app': {
-      id: '/login/app'
-      path: '/app'
-      fullPath: '/login/app'
-      preLoaderRoute: typeof LoginAppRouteImport
-      parentRoute: typeof LoginRoute
-    }
-    '/connect/callback': {
-      id: '/connect/callback'
-      path: '/connect/callback'
-      fullPath: '/connect/callback'
-      preLoaderRoute: typeof ConnectCallbackRouteImport
+    '/login/desktop': {
+      id: '/login/desktop'
+      path: '/login/desktop'
+      fullPath: '/login/desktop'
+      preLoaderRoute: typeof LoginDesktopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance/terms': {
@@ -386,20 +229,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/compliance/privacy'
       preLoaderRoute: typeof CompliancePrivacyRouteImport
       parentRoute: typeof ComplianceRoute
-    }
-    '/callback/signup/web': {
-      id: '/callback/signup/web'
-      path: '/callback/signup/web'
-      fullPath: '/callback/signup/web'
-      preLoaderRoute: typeof CallbackSignupWebRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/callback/signup/app': {
-      id: '/callback/signup/app'
-      path: '/callback/signup/app'
-      fullPath: '/callback/signup/app'
-      preLoaderRoute: typeof CallbackSignupAppRouteImport
-      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -418,48 +247,15 @@ const ComplianceRouteWithChildren = ComplianceRoute._addFileChildren(
   ComplianceRouteChildren,
 )
 
-interface LoginRouteChildren {
-  LoginAppRoute: typeof LoginAppRoute
-  LoginWebRoute: typeof LoginWebRoute
-}
-
-const LoginRouteChildren: LoginRouteChildren = {
-  LoginAppRoute: LoginAppRoute,
-  LoginWebRoute: LoginWebRoute,
-}
-
-const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
-
-interface ProfileRouteChildren {
-  ProfileConnectedAppsRoute: typeof ProfileConnectedAppsRoute
-  ProfileScreenTimeRoute: typeof ProfileScreenTimeRoute
-  ProfileSessionsHistoryRoute: typeof ProfileSessionsHistoryRoute
-  ProfileTasksRoute: typeof ProfileTasksRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
-}
-
-const ProfileRouteChildren: ProfileRouteChildren = {
-  ProfileConnectedAppsRoute: ProfileConnectedAppsRoute,
-  ProfileScreenTimeRoute: ProfileScreenTimeRoute,
-  ProfileSessionsHistoryRoute: ProfileSessionsHistoryRoute,
-  ProfileTasksRoute: ProfileTasksRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
-}
-
-const ProfileRouteWithChildren =
-  ProfileRoute._addFileChildren(ProfileRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlockedRoute: BlockedRoute,
   ComplianceRoute: ComplianceRouteWithChildren,
-  LoginRoute: LoginRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
-  ProfileRoute: ProfileRouteWithChildren,
+  SsoCallbackRoute: SsoCallbackRoute,
   TermsRoute: TermsRoute,
-  ConnectCallbackRoute: ConnectCallbackRoute,
-  CallbackSignupAppRoute: CallbackSignupAppRoute,
-  CallbackSignupWebRoute: CallbackSignupWebRoute,
+  LoginDesktopRoute: LoginDesktopRoute,
+  LoginWebRoute: LoginWebRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

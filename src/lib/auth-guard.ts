@@ -3,48 +3,36 @@ import { redirect } from "@tanstack/react-router";
 /**
  * Check if the user is authenticated and redirect to login if not.
  * This function can be used in the beforeLoad of any route that requires authentication.
+ * 
+ * Note: For Clerk, the recommended approach is to use <SignedIn> and <SignedOut> components
+ * or the useAuth hook within route components. This guard provides a synchronous check
+ * by looking for Clerk's session cookie.
  */
 export async function requireAuth(params: {
   location: { pathname: string };
   context?: any;
 }) {
   const { location } = params;
-  const stytchPublicToken = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN;
+  const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-  if (!stytchPublicToken) {
-    // If no Stytch token is configured, allow access (dev mode)
+  if (!publishableKey) {
+    // If no Clerk key is configured, allow access (dev mode)
     return;
   }
 
-  // Check for session using Stytch
-  try {
-    const { StytchUIClient } = await import("@stytch/vanilla-js");
-    const stytch = new StytchUIClient(stytchPublicToken);
-    const session = stytch.session.getSync();
+  // Check for Clerk session cookie
+  // Clerk sets __session cookie when authenticated
+  const hasSession = document.cookie
+    .split(";")
+    .some((cookie) => cookie.trim().startsWith("__session="));
 
-    if (!session) {
-      // Not authenticated, redirect to login with web param and current path
-      throw redirect({
-        to: "/login",
-        search: {
-          redirect: location.pathname,
-          web: "true",
-        },
-      });
-    }
-  } catch (error) {
-    // If it's already a redirect, rethrow it
-    if (error && typeof error === "object" && "location" in error) {
-      throw error;
-    }
-    // For other errors, redirect to login
+  if (!hasSession) {
+    // Not authenticated, redirect to login with current path
     throw redirect({
       to: "/login",
       search: {
         redirect: location.pathname,
-        web: "true",
       },
     });
   }
 }
-

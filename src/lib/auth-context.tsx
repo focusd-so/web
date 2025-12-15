@@ -1,12 +1,11 @@
-import { createContext, useContext, ReactNode, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { StytchUIClient } from "@stytch/vanilla-js";
+import { createContext, useContext, ReactNode } from "react";
+import { useUser, useAuth as useClerkAuth } from "@clerk/clerk-react";
 
 interface AuthContextType {
-  stytch: StytchUIClient | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  session: any | null;
+  userId: string | null | undefined;
+  sessionId: string | null | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,44 +15,17 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const publicToken = import.meta.env.VITE_STYTCH_PUBLIC_TOKEN as string | undefined;
-  
-  const stytch = useMemo(() => {
-    if (!publicToken) return null;
-    try {
-      return new StytchUIClient(publicToken);
-    } catch {
-      return null;
-    }
-  }, [publicToken]);
+  const { isLoaded: userLoaded, isSignedIn } = useUser();
+  const { userId, sessionId, isLoaded: authLoaded } = useClerkAuth();
 
-  // Use TanStack Query for session checking
-  const { data: session, isLoading } = useQuery({
-    queryKey: ["stytch-session", publicToken],
-    queryFn: async () => {
-      if (!stytch) return null;
-      
-      try {
-        // Try to get the current session from Stytch
-        const existingSession = stytch.session.getSync();
-        return existingSession || null;
-      } catch (error) {
-        console.error("Error checking session:", error);
-        return null;
-      }
-    },
-    enabled: !!stytch,
-    staleTime: 5 * 60 * 1000, // Consider session data fresh for 5 minutes
-    refetchOnWindowFocus: true, // Refetch when window regains focus
-  });
-
-  const isAuthenticated = !!session;
+  const isLoading = !userLoaded || !authLoaded;
+  const isAuthenticated = !!isSignedIn;
 
   const contextValue: AuthContextType = {
-    stytch,
     isAuthenticated,
     isLoading,
-    session,
+    userId,
+    sessionId,
   };
 
   return (
@@ -73,4 +45,3 @@ export function useAuth(): AuthContextType {
 
   return context;
 }
-
