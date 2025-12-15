@@ -27,13 +27,13 @@ function CallbackSignupAppPage() {
       try {
         if (stytch_token_type === "oauth") {
           const response = await stytch.oauth.authenticate(token, {
-            session_duration_minutes: 60 * 24 * 30 * 100,
+            session_duration_minutes: 60 * 24 * 30 * 5,
           });
           return response;
         }
         if (stytch_token_type === "email_magic_link") {
           const response = await stytch.magicLinks.authenticate(token, {
-            session_duration_minutes: 60 * 24 * 30 * 100,
+            session_duration_minutes: 60 * 24 * 30 * 5,
           });
           return response;
         }
