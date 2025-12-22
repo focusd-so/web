@@ -10,24 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
-import { Route as SsoCallbackRouteImport } from './routes/sso-callback'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as BlockedRouteImport } from './routes/blocked'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as LoginWebRouteImport } from './routes/login.web'
-import { Route as LoginDesktopRouteImport } from './routes/login.desktop'
+import { Route as Oauth2CallbackRouteImport } from './routes/oauth2.callback'
 import { Route as ComplianceTermsRouteImport } from './routes/compliance.terms'
 import { Route as CompliancePrivacyRouteImport } from './routes/compliance.privacy'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SsoCallbackRoute = SsoCallbackRouteImport.update({
-  id: '/sso-callback',
-  path: '/sso-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -50,14 +43,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginWebRoute = LoginWebRouteImport.update({
-  id: '/login/web',
-  path: '/login/web',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginDesktopRoute = LoginDesktopRouteImport.update({
-  id: '/login/desktop',
-  path: '/login/desktop',
+const Oauth2CallbackRoute = Oauth2CallbackRouteImport.update({
+  id: '/oauth2/callback',
+  path: '/oauth2/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceTermsRoute = ComplianceTermsRouteImport.update({
@@ -76,24 +64,20 @@ export interface FileRoutesByFullPath {
   '/blocked': typeof BlockedRoute
   '/compliance': typeof ComplianceRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/sso-callback': typeof SsoCallbackRoute
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
-  '/login/desktop': typeof LoginDesktopRoute
-  '/login/web': typeof LoginWebRoute
+  '/oauth2/callback': typeof Oauth2CallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blocked': typeof BlockedRoute
   '/compliance': typeof ComplianceRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/sso-callback': typeof SsoCallbackRoute
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
-  '/login/desktop': typeof LoginDesktopRoute
-  '/login/web': typeof LoginWebRoute
+  '/oauth2/callback': typeof Oauth2CallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,12 +85,10 @@ export interface FileRoutesById {
   '/blocked': typeof BlockedRoute
   '/compliance': typeof ComplianceRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/sso-callback': typeof SsoCallbackRoute
   '/terms': typeof TermsRoute
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
-  '/login/desktop': typeof LoginDesktopRoute
-  '/login/web': typeof LoginWebRoute
+  '/oauth2/callback': typeof Oauth2CallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -115,36 +97,30 @@ export interface FileRouteTypes {
     | '/blocked'
     | '/compliance'
     | '/privacy'
-    | '/sso-callback'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
-    | '/login/desktop'
-    | '/login/web'
+    | '/oauth2/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blocked'
     | '/compliance'
     | '/privacy'
-    | '/sso-callback'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
-    | '/login/desktop'
-    | '/login/web'
+    | '/oauth2/callback'
   id:
     | '__root__'
     | '/'
     | '/blocked'
     | '/compliance'
     | '/privacy'
-    | '/sso-callback'
     | '/terms'
     | '/compliance/privacy'
     | '/compliance/terms'
-    | '/login/desktop'
-    | '/login/web'
+    | '/oauth2/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,10 +128,8 @@ export interface RootRouteChildren {
   BlockedRoute: typeof BlockedRoute
   ComplianceRoute: typeof ComplianceRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
-  SsoCallbackRoute: typeof SsoCallbackRoute
   TermsRoute: typeof TermsRoute
-  LoginDesktopRoute: typeof LoginDesktopRoute
-  LoginWebRoute: typeof LoginWebRoute
+  Oauth2CallbackRoute: typeof Oauth2CallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,13 +139,6 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sso-callback': {
-      id: '/sso-callback'
-      path: '/sso-callback'
-      fullPath: '/sso-callback'
-      preLoaderRoute: typeof SsoCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -202,18 +169,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login/web': {
-      id: '/login/web'
-      path: '/login/web'
-      fullPath: '/login/web'
-      preLoaderRoute: typeof LoginWebRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login/desktop': {
-      id: '/login/desktop'
-      path: '/login/desktop'
-      fullPath: '/login/desktop'
-      preLoaderRoute: typeof LoginDesktopRouteImport
+    '/oauth2/callback': {
+      id: '/oauth2/callback'
+      path: '/oauth2/callback'
+      fullPath: '/oauth2/callback'
+      preLoaderRoute: typeof Oauth2CallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance/terms': {
@@ -252,10 +212,8 @@ const rootRouteChildren: RootRouteChildren = {
   BlockedRoute: BlockedRoute,
   ComplianceRoute: ComplianceRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
-  SsoCallbackRoute: SsoCallbackRoute,
   TermsRoute: TermsRoute,
-  LoginDesktopRoute: LoginDesktopRoute,
-  LoginWebRoute: LoginWebRoute,
+  Oauth2CallbackRoute: Oauth2CallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

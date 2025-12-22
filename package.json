@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.7.0",
-    "@clerk/clerk-react": "^5.58.1",
     "@connectrpc/connect": "^2.1.0",
     "@connectrpc/connect-web": "^2.1.0",
     "@radix-ui/react-dialog": "^1.1.15",

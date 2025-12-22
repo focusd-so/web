@@ -1,4 +1,4 @@
-import { useSignIn, useClerk, useAuth } from "@clerk/clerk-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCallback } from "react";
@@ -7,49 +7,20 @@ interface LoginFormProps {
   callbackUrl: string;
 }
 
-export function LoginForm({ callbackUrl }: LoginFormProps) {
-  const { signIn, isLoaded } = useSignIn();
-  const { signOut } = useClerk();
-  const { isSignedIn } = useAuth();
+export function LoginForm({ }: LoginFormProps) {
+  const isLoaded = true; // Hardcoded for now
 
   const loginWithGoogle = useCallback(async () => {
-    if (!signIn) return;
-    // Sign out first if already signed in
-    if (isSignedIn) {
-      await signOut();
-    }
-    signIn.authenticateWithRedirect({
-      strategy: "oauth_google",
-      redirectUrl: "/sso-callback",
-      redirectUrlComplete: callbackUrl,
-    });
-  }, [signIn, signOut, isSignedIn, callbackUrl]);
+    console.log("Login with Google clicked");
+  }, []);
 
   const loginWithGitHub = useCallback(async () => {
-    if (!signIn) return;
-    // Sign out first if already signed in
-    if (isSignedIn) {
-      await signOut();
-    }
-    signIn.authenticateWithRedirect({
-      strategy: "oauth_github",
-      redirectUrl: "/sso-callback",
-      redirectUrlComplete: callbackUrl,
-    });
-  }, [signIn, signOut, isSignedIn, callbackUrl]);
+    console.log("Login with GitHub clicked");
+  }, []);
 
   const loginWithApple = useCallback(async () => {
-    if (!signIn) return;
-    // Sign out first if already signed in
-    if (isSignedIn) {
-      await signOut();
-    }
-    signIn.authenticateWithRedirect({
-      strategy: "oauth_apple",
-      redirectUrl: "/sso-callback",
-      redirectUrlComplete: callbackUrl,
-    });
-  }, [signIn, signOut, isSignedIn, callbackUrl]);
+    console.log("Login with Apple clicked");
+  }, []);
 
   return (
     <div className="min-h-screen flex">

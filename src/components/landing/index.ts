@@ -1,0 +1,10 @@
+export { Navbar } from "./navbar";
+export { HeroSection } from "./hero-section";
+export { ProblemSection } from "./problem-section";
+export { CoreModelSection } from "./core-model-section";
+export { DistractionBlockingSection } from "./distraction-blocking-section";
+export { FocusSessionsSection } from "./focus-sessions-section";
+export { PrivacySection } from "./privacy-section";
+export { AudienceSection } from "./audience-section";
+export { FinalCTASection } from "./final-cta-section";
+export { Footer } from "./footer";
