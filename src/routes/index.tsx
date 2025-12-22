@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="dark font-[Inter,system-ui,sans-serif] antialiased">
+    <div className="dark font-[Inter,system-ui,sans-serif] antialiased overflow-x-hidden">
       <Navbar />
       <main>
         <HeroSection />
