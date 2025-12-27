@@ -1,5 +1,4 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 // eslint-disable-next-line import/no-unresolved
@@ -130,13 +129,12 @@ function BlockedPage() {
   }
 
   // Parse categories as a comma-separated string
-  const categories = useMemo(() => {
-    if (!decodedData.categories) return [];
-    return decodedData.categories
+  const categories = decodedData.categories
+    ? decodedData.categories
       .split(",")
       .map((c) => c.trim())
-      .filter((c) => c.length > 0);
-  }, [decodedData.categories]);
+      .filter((c) => c.length > 0)
+    : [];
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
