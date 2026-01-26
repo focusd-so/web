@@ -17,6 +17,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as Oauth2CallbackRouteImport } from './routes/oauth2.callback'
 import { Route as ComplianceTermsRouteImport } from './routes/compliance.terms'
 import { Route as CompliancePrivacyRouteImport } from './routes/compliance.privacy'
+import { Route as CheckoutSuccessCheckoutIdRouteImport } from './routes/checkout.success.$checkoutId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -58,6 +59,12 @@ const CompliancePrivacyRoute = CompliancePrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => ComplianceRoute,
 } as any)
+const CheckoutSuccessCheckoutIdRoute =
+  CheckoutSuccessCheckoutIdRouteImport.update({
+    id: '/checkout/success/$checkoutId',
+    path: '/checkout/success/$checkoutId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
   '/oauth2/callback': typeof Oauth2CallbackRoute
+  '/checkout/success/$checkoutId': typeof CheckoutSuccessCheckoutIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
   '/oauth2/callback': typeof Oauth2CallbackRoute
+  '/checkout/success/$checkoutId': typeof CheckoutSuccessCheckoutIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +98,7 @@ export interface FileRoutesById {
   '/compliance/privacy': typeof CompliancePrivacyRoute
   '/compliance/terms': typeof ComplianceTermsRoute
   '/oauth2/callback': typeof Oauth2CallbackRoute
+  '/checkout/success/$checkoutId': typeof CheckoutSuccessCheckoutIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +111,7 @@ export interface FileRouteTypes {
     | '/compliance/privacy'
     | '/compliance/terms'
     | '/oauth2/callback'
+    | '/checkout/success/$checkoutId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +122,7 @@ export interface FileRouteTypes {
     | '/compliance/privacy'
     | '/compliance/terms'
     | '/oauth2/callback'
+    | '/checkout/success/$checkoutId'
   id:
     | '__root__'
     | '/'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
     | '/compliance/privacy'
     | '/compliance/terms'
     | '/oauth2/callback'
+    | '/checkout/success/$checkoutId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,6 +143,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
   Oauth2CallbackRoute: typeof Oauth2CallbackRoute
+  CheckoutSuccessCheckoutIdRoute: typeof CheckoutSuccessCheckoutIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -190,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompliancePrivacyRouteImport
       parentRoute: typeof ComplianceRoute
     }
+    '/checkout/success/$checkoutId': {
+      id: '/checkout/success/$checkoutId'
+      path: '/checkout/success/$checkoutId'
+      fullPath: '/checkout/success/$checkoutId'
+      preLoaderRoute: typeof CheckoutSuccessCheckoutIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -214,6 +235,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
   Oauth2CallbackRoute: Oauth2CallbackRoute,
+  CheckoutSuccessCheckoutIdRoute: CheckoutSuccessCheckoutIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
