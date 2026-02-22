@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   Navbar,
   HeroSection,
-  ProblemSection,
-  CoreModelSection,
   DistractionBlockingSection,
-  FocusSessionsSection,
   PrivacySection,
   AudienceSection,
   FinalCTASection,
@@ -22,10 +19,10 @@ function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <ProblemSection />
-        <CoreModelSection />
+        {/* <ProblemSection /> */}
+        {/* <CoreModelSection /> */}
         <DistractionBlockingSection />
-        <FocusSessionsSection />
+        {/* <FocusSessionsSection /> */}
         <PrivacySection />
         <AudienceSection />
         <FinalCTASection />

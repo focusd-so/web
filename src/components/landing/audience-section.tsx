@@ -18,7 +18,7 @@ const notFor = [
 
 export function AudienceSection() {
     return (
-        <section className="relative py-24 px-4">
+        <section id="for-who" className="relative py-24 px-4">
             <div className="absolute inset-0 bg-neutral-950 -z-10" />
 
             <div className="max-w-4xl mx-auto">

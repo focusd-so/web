@@ -2,11 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
 
-const WAITLIST_URL = "https://forms.gle/w5X3h3rN1fne8jXJ9";
-
 export function FinalCTASection() {
     return (
-        <section id="waitlist" className="relative py-24 px-4 overflow-hidden">
+        <section id="download" className="relative py-24 px-4 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 -z-10" />
 
             {/* Glow effects */}
@@ -19,7 +17,7 @@ export function FinalCTASection() {
                     variant="outline"
                     className="px-4 py-1.5 text-sm font-medium border-white/20 text-white/80 bg-white/5 mb-8"
                 >
-                    Early access
+                    Public Beta
                 </Badge>
 
                 {/* Headline */}
@@ -29,18 +27,19 @@ export function FinalCTASection() {
 
                 {/* Description */}
                 <p className="text-lg text-white/50 mb-10 max-w-lg mx-auto">
-                    Join the waitlist for early access. We're rolling out to a small group
-                    of developers first.
+                    Download the public beta and start protecting your focus today.
                 </p>
 
-                {/* Waitlist button */}
+                {/* Download button */}
                 <Button
                     size="lg"
-                    className="bg-white text-neutral-900 hover:bg-white/90 font-semibold h-12 px-8"
-                    onClick={() => window.open(WAITLIST_URL, "_blank")}
+                    className="bg-white text-neutral-900 hover:bg-white/90 font-semibold px-8 h-12 text-base"
+                    asChild
                 >
-                    Join waitlist
-                    <ArrowRight className="ml-2 w-4 h-4" />
+                    <a href="https://github.com/focusd-so/focusd/releases/latest/download/Focusd.dmg">
+                        Download for macOS
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
                 </Button>
 
                 {/* macOS note */}

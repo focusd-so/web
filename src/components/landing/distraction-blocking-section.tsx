@@ -3,7 +3,7 @@ import { Ban, Globe, AppWindow, Sparkles } from "lucide-react";
 
 export function DistractionBlockingSection() {
     return (
-        <section className="relative py-24 px-4 overflow-hidden">
+        <section id="how-it-works" className="relative py-24 px-4 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-950 to-neutral-950 -z-10" />
 
             {/* Subtle glow */}
@@ -33,7 +33,7 @@ export function DistractionBlockingSection() {
                                 {/* Blocked items */}
                                 <div className="space-y-3">
                                     <p className="text-xs font-medium text-white/40 uppercase tracking-wider">
-                                        Auto-blocked during focus
+                                        Auto-blocked — always on
                                     </p>
 
                                     {/* Website blocked */}
@@ -104,8 +104,7 @@ export function DistractionBlockingSection() {
                                 <span className="text-white/70">Automatically.</span>
                             </h2>
                             <p className="text-lg text-white/60 leading-relaxed">
-                                Focusd learns which apps and websites pull you out of flow. During focus
-                                sessions, they're blocked before you even think to open them.
+                                Focusd monitors your activity and automatically blocks apps and websites that break your focus — all the time, without you lifting a finger.
                             </p>
                         </div>
 
@@ -150,7 +149,7 @@ export function DistractionBlockingSection() {
                                     </h3>
                                     <p className="text-white/50 text-sm leading-relaxed">
                                         You don't have to resist temptation. The distraction
-                                        simply isn't available until your session ends.
+                                        simply isn't available.
                                     </p>
                                 </div>
                             </div>

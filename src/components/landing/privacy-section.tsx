@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { HardDrive, KeyRound, Ban, Cloud } from "lucide-react";
+import { HardDrive, Ban, Cloud, Github } from "lucide-react";
 
 const privacyPoints = [
     {
@@ -8,29 +8,47 @@ const privacyPoints = [
         description:
             "Your data lives on your machine. No cloud required to use core features.",
     },
-    {
-        icon: KeyRound,
-        title: "You own your tokens",
-        description:
-            "API keys and credentials stay with you. We never have access to your integrations.",
-    },
+    // {
+    //     icon: KeyRound,
+    //     title: "You own your tokens",
+    //     description:
+    //         "API keys and credentials stay with you. We never have access to your integrations.",
+    // },
     {
         icon: Ban,
         title: "No training on your data",
         description:
-            "Your activity is never used to train models. Period. Not ours, not anyone's.",
+            "We never store your activity or use it to train our own models. Your data passes securely through enterprise AI providers and disappears.",
     },
     {
-        icon: Cloud,
-        title: "Cloud is opt-in",
-        description:
-            "Sync features are optional and transparent. You choose what leaves your device.",
+        icon: Github,
+        title: "Source available",
+        description: (
+            <>
+                Trust but verify. Our entire desktop app and server are on{" "}
+                <a
+                    href="https://github.com/focusd-so/focusd"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-green-400 transition-colors"
+                >
+                    GitHub
+                </a>{" "}
+                for anyone to inspect and contribute.
+            </>
+        ),
     },
+    // {
+    //     icon: Cloud,
+    //     title: "Cloud is opt-in",
+    //     description:
+    //         "Sync features are optional and transparent. You choose what leaves your device.",
+    // },
 ];
 
 export function PrivacySection() {
     return (
-        <section className="relative py-24 px-4">
+        <section id="privacy" className="relative py-24 px-4">
             <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 -z-10" />
 
             <div className="max-w-5xl mx-auto">
