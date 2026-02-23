@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export function Navbar({ className }: { className?: string }) {
     const [activeSection, setActiveSection] = useState<string>('hero');
     const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
     const navRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-    const links = [
+    const links = useMemo(() => [
         { id: 'hero', label: 'Home' },
         { id: 'how-it-works', label: 'How it works' },
         { id: 'programmable', label: 'Rules as Code' },
         { id: 'privacy', label: 'Data privacy' },
         { id: 'for-who', label: 'Audience' },
-    ];
+    ], []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,9 +24,8 @@ export function Navbar({ className }: { className?: string }) {
                 const section = sections[i];
                 if (section) {
                     const rect = section.getBoundingClientRect();
-                    // If the top of the section is above the middle of the screen
-                    // or within the top 200px
-                    if (rect.top <= 300) {
+                    // Using a more dynamic threshold (top of section is in the top 40% of viewport)
+                    if (rect.top <= 400) {
                         current = links[i].id;
                         break;
                     }
@@ -38,13 +37,15 @@ export function Navbar({ className }: { className?: string }) {
                 current = 'hero';
             }
 
-            setActiveSection(current);
+            if (current !== activeSection) {
+                setActiveSection(current);
+            }
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll(); // Initial check
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [links, activeSection]);
 
     useEffect(() => {
         const activeIndex = links.findIndex(link => link.id === activeSection);
@@ -58,7 +59,7 @@ export function Navbar({ className }: { className?: string }) {
         } else {
             setIndicatorStyle(prev => ({ ...prev, opacity: 0 }));
         }
-    }, [activeSection]);
+    }, [activeSection, links]);
 
     return (
         <header

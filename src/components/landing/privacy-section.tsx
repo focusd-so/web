@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { HardDrive, Ban, Cloud, Github } from "lucide-react";
+import { HardDrive, Ban, Github } from "lucide-react";
 
 const privacyPoints = [
     {
@@ -48,7 +48,7 @@ const privacyPoints = [
 
 export function PrivacySection() {
     return (
-        <section id="privacy" className="relative py-24 px-4">
+        <section id="privacy" className="relative py-24 px-4 scroll-mt-24">
             <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 -z-10" />
 
             <div className="max-w-5xl mx-auto">

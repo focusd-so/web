@@ -3,7 +3,7 @@ import { Code2, Terminal, Settings2, Sparkles, Binary } from "lucide-react";
 
 export function ProgrammableSection() {
     return (
-        <section id="programmable" className="relative py-24 px-4 overflow-hidden">
+        <section id="programmable" className="relative py-24 px-4 overflow-hidden scroll-mt-24">
             <div className="absolute inset-0 bg-neutral-950 -z-10" />
 
             {/* Subtle glow */}
@@ -127,7 +127,7 @@ export function ProgrammableSection() {
                                         {"  "}<span className="text-blue-400">const</span> ukTimeNow = <span className="text-purple-300">now</span>(<span className="text-yellow-200">"GB"</span>)<br />
                                         {"  "}<span className="text-blue-400">if</span> (ukTimeNow.<span className="text-purple-300">getHours</span>() == <span className="text-pink-400">10</span> {" && "} ukTimeNow.<span className="text-purple-300">getMinutes</span>() {">="} <span className="text-pink-400">0</span> {" && "} ukTimeNow.<span className="text-purple-300">getMinutes</span>() {"<="} <span className="text-pink-400">30</span>) {"{"}<br />
                                         {"    "}<span className="text-blue-400">return</span> {"{"}<br />
-                                        {"      "}classification: <span className="text-pink-400">Classification</span>.<span className="text-pink-400">None</span>,<br />
+                                        {"      "}classification: <span className="text-pink-400">Classification</span>.<span className="text-pink-400">Neutral</span>,<br />
                                         {"      "}classificationReasoning: <span className="text-yellow-200">"Can browse during standup"</span><br />
                                         {"    "}<span className="text-blue-400">{"}"} as</span> <span className="text-teal-300">ClassificationDecision</span><br />
                                         {"  "}{"}"}<br /><br />
@@ -135,7 +135,7 @@ export function ProgrammableSection() {
                                         {"  "}<span className="text-blue-400">if</span> (ctx.hostname.<span className="text-purple-300">includes</span>(<span className="text-yellow-200">"whatsapp.com"</span>)) {"{"}<br />
                                         {"    "}<span className="text-blue-400">if</span> (ctx.minutesSinceLastBlock {">"} <span className="text-pink-400">20</span> {" && "} ctx.minutesUsedSinceLastBlock {"<"} <span className="text-pink-400">5</span>) {"{"}<br />
                                         {"      "}<span className="text-blue-400">return</span> {"{"}<br />
-                                        {"        "}classification: <span className="text-pink-400">Classification</span>.<span className="text-pink-400">None</span>,<br />
+                                        {"        "}classification: <span className="text-pink-400">Classification</span>.<span className="text-pink-400">Neutral</span>,<br />
                                         {"        "}classificationReasoning: <span className="text-yellow-200">"Catching up with missus"</span><br />
                                         {"      "}<span className="text-blue-400">{"}"} as</span> <span className="text-teal-300">ClassificationDecision</span><br />
                                         {"    "}{"}"}<br />

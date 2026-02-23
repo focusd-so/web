@@ -3,7 +3,7 @@ import { Ban, Globe, AppWindow, Sparkles } from "lucide-react";
 
 export function DistractionBlockingSection() {
     return (
-        <section id="how-it-works" className="relative py-24 px-4 overflow-hidden">
+        <section id="how-it-works" className="relative py-24 px-4 overflow-hidden scroll-mt-24">
             <div className="absolute inset-0 bg-gradient-to-b from-neutral-900 via-neutral-950 to-neutral-950 -z-10" />
 
             {/* Subtle glow */}
