@@ -8,3 +8,4 @@ export { PrivacySection } from "./privacy-section";
 export { AudienceSection } from "./audience-section";
 export { FinalCTASection } from "./final-cta-section";
 export { Footer } from "./footer";
+export { ProgrammableSection } from "./programmable-section";

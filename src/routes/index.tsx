@@ -3,6 +3,7 @@ import {
   Navbar,
   HeroSection,
   DistractionBlockingSection,
+  ProgrammableSection,
   PrivacySection,
   AudienceSection,
   FinalCTASection,
@@ -22,6 +23,7 @@ function HomePage() {
         {/* <ProblemSection /> */}
         {/* <CoreModelSection /> */}
         <DistractionBlockingSection />
+        <ProgrammableSection />
         {/* <FocusSessionsSection /> */}
         <PrivacySection />
         <AudienceSection />
