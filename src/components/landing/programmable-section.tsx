@@ -106,56 +106,22 @@ export function ProgrammableSection() {
                             </div>
 
                             {/* Code Area */}
-                            <div className="p-6 font-mono text-[13px] leading-relaxed overflow-y-auto max-h-[500px] scrollbar-hide">
+                            <div className="p-4 font-mono text-[12.5px] leading-relaxed overflow-hidden">
                                 <pre className="text-white/90">
                                     <code>
-                                        <span className="text-neutral-500">{"/**"}</span><br />
-                                        <span className="text-neutral-500">{" * Custom classification logic."}</span><br />
-                                        <span className="text-neutral-500">{" * Return a ClassificationDecision to override the default."}</span><br />
-                                        <span className="text-neutral-500">{" *"}</span><br />
-                                        <span className="text-neutral-500">{" * @example"}</span><br />
-                                        <span className="text-neutral-500">{" * // Classify GitHub as productive"}</span><br />
-                                        <span className="text-neutral-500">{" * if (ctx.domain === 'github.com') {"}</span><br />
-                                        <span className="text-neutral-500">{" *   return {"}</span><br />
-                                        <span className="text-neutral-500">{" *     classification: Classification.Productive,"}</span><br />
-                                        <span className="text-neutral-500">{" *     classificationReasoning: 'GitHub is a development tool'"}</span><br />
-                                        <span className="text-neutral-500">{" *   };"}</span><br />
-                                        <span className="text-neutral-500">{" * }"}</span><br />
-                                        <span className="text-neutral-500">{" */"}</span><br />
-                                        <span className="text-blue-400">export function</span> <span className="text-purple-300">classify</span>(ctx: <span className="text-teal-300">Context</span>): <span className="text-teal-300">ClassificationDecision</span> | <span className="text-blue-400">undefined</span> {"{"}<br />
-                                        {"  "}<span className="text-neutral-500">// allow browsing during standup</span><br />
-                                        {"  "}<span className="text-blue-400">const</span> ukTimeNow = <span className="text-purple-300">now</span>(<span className="text-yellow-200">"GB"</span>)<br />
-                                        {"  "}<span className="text-blue-400">if</span> (ukTimeNow.<span className="text-purple-300">getHours</span>() == <span className="text-pink-400">10</span> {" && "} ukTimeNow.<span className="text-purple-300">getMinutes</span>() {">="} <span className="text-pink-400">0</span> {" && "} ukTimeNow.<span className="text-purple-300">getMinutes</span>() {"<="} <span className="text-pink-400">30</span>) {"{"}<br />
-                                        {"    "}<span className="text-blue-400">return</span> {"{"}<br />
-                                        {"      "}classification: <span className="text-pink-400">Classification</span>.<span className="text-pink-400">Neutral</span>,<br />
-                                        {"      "}classificationReasoning: <span className="text-yellow-200">"Can browse during standup"</span><br />
-                                        {"    "}<span className="text-blue-400">{"}"} as</span> <span className="text-teal-300">ClassificationDecision</span><br />
+                                        <span className="text-blue-400">export function</span> <span className="text-purple-300">classify</span>(ctx: <span className="text-teal-300">Context</span>) {"{"}<br />
+                                        {"  "}<span className="text-neutral-500">// Allow browsing during standup</span><br />
+                                        {"  "}<span className="text-blue-400">if</span> (<span className="text-purple-300">isStandupTime</span>()) {"{"}<br />
+                                        {"    "}<span className="text-blue-400">return</span> {"{"} classification: <span className="text-pink-400">Neutral</span> {"}"}<br />
                                         {"  "}{"}"}<br /><br />
-                                        {"  "}<span className="text-neutral-500">// WhatsApp catch up for 5m every 20m</span><br />
-                                        {"  "}<span className="text-blue-400">if</span> (ctx.hostname.<span className="text-purple-300">includes</span>(<span className="text-yellow-200">"whatsapp.com"</span>)) {"{"}<br />
-                                        {"    "}<span className="text-blue-400">if</span> (ctx.minutesSinceLastBlock {">"} <span className="text-pink-400">20</span> {" && "} ctx.minutesUsedSinceLastBlock {"<"} <span className="text-pink-400">5</span>) {"{"}<br />
-                                        {"      "}<span className="text-blue-400">return</span> {"{"}<br />
-                                        {"        "}classification: <span className="text-pink-400">Classification</span>.<span className="text-pink-400">Neutral</span>,<br />
-                                        {"        "}classificationReasoning: <span className="text-yellow-200">"Catching up with missus"</span><br />
-                                        {"      "}<span className="text-blue-400">{"}"} as</span> <span className="text-teal-300">ClassificationDecision</span><br />
-                                        {"    "}{"}"}<br />
+                                        {"  "}<span className="text-neutral-500">// GitHub is always productive</span><br />
+                                        {"  "}<span className="text-blue-400">if</span> (ctx.hostname.<span className="text-purple-300">includes</span>(<span className="text-yellow-200">"github.com"</span>)) {"{"}<br />
+                                        {"    "}<span className="text-blue-400">return</span> {"{"} classification: <span className="text-pink-400">Productive</span> {"}"}<br />
                                         {"  "}{"}"}<br /><br />
-                                        {"  "}<span className="text-blue-400">return undefined</span>;<br />
-                                        {"}"}<br /><br />
-                                        <span className="text-neutral-500">{"/**"}</span><br />
-                                        <span className="text-neutral-500">{" * Custom termination logic (blocking)."}</span><br />
-                                        <span className="text-neutral-500">{" *"}</span><br />
-                                        <span className="text-neutral-500">{" * @example"}</span><br />
-                                        <span className="text-neutral-500">{" * // Block social media after 10 PM"}</span><br />
-                                        <span className="text-neutral-500">{" * if (ctx.domain === 'twitter.com' && now().getHours() >= 22) {"}</span><br />
-                                        <span className="text-neutral-500">{" *   return {"}</span><br />
-                                        <span className="text-neutral-500">{" *     terminationMode: TerminationMode.Block,"}</span><br />
-                                        <span className="text-neutral-500">{" *     terminationReasoning: 'Social media blocked after 10 PM'"}</span><br />
-                                        <span className="text-neutral-500">{" *   };"}</span><br />
-                                        <span className="text-neutral-500">{" * }"}</span><br />
-                                        <span className="text-neutral-500">{" */"}</span><br />
-                                        <span className="text-blue-400">export function</span> <span className="text-purple-300">terminationMode</span>(ctx: <span className="text-teal-300">Context</span>): <span className="text-teal-300">TerminationDecision</span> | <span className="text-blue-400">undefined</span> {"{"}<br />
-                                        {"  "}<span className="text-blue-400">return undefined</span>;<br />
+                                        {"  "}<span className="text-neutral-500">// Relax for 5m every 20m</span><br />
+                                        {"  "}<span className="text-blue-400">if</span> (ctx.minutesUsed {">"} <span className="text-pink-400">20</span>) {"{"}<br />
+                                        {"    "}<span className="text-blue-400">return</span> {"{"} classification: <span className="text-pink-400">Relax</span> {"}"}<br />
+                                        {"  "}{"}"}<br />
                                         {"}"}
                                     </code>
                                 </pre>
