@@ -106,22 +106,36 @@ export function ProgrammableSection() {
                             </div>
 
                             {/* Code Area */}
-                            <div className="p-4 font-mono text-[12.5px] leading-relaxed overflow-hidden">
+                            <div className="p-6 font-mono text-[13px] leading-relaxed overflow-y-auto max-h-[500px] scrollbar-hide">
                                 <pre className="text-white/90">
                                     <code>
+                                        <span className="text-neutral-500">{"// Override default AI decisions"}</span><br />
                                         <span className="text-blue-400">export function</span> <span className="text-purple-300">classify</span>(ctx: <span className="text-teal-300">Context</span>) {"{"}<br />
-                                        {"  "}<span className="text-neutral-500">// Allow browsing during standup</span><br />
-                                        {"  "}<span className="text-blue-400">if</span> (<span className="text-purple-300">isStandupTime</span>()) {"{"}<br />
-                                        {"    "}<span className="text-blue-400">return</span> {"{"} classification: <span className="text-pink-400">Neutral</span> {"}"}<br />
+                                        {"  "}<span className="text-blue-400">const</span> t = <span className="text-purple-300">now</span>(<span className="text-yellow-200">"GB"</span>);<br />
+                                        {"  "}<span className="text-blue-400">const</span> hr = t.<span className="text-purple-300">getHours</span>(), min = t.<span className="text-purple-300">getMinutes</span>();<br /><br />
+                                        {"  "}<span className="text-neutral-500">// Allow browsing during standup (10:00 - 10:30)</span><br />
+                                        {"  "}<span className="text-blue-400">if</span> (hr === <span className="text-pink-400">10</span> {" && "} min {"<="} <span className="text-pink-400">30</span>) {"{"}<br />
+                                        {"    "}<span className="text-blue-400">return</span> {"{"}<br />
+                                        {"      "}classification: <span className="text-pink-400">Classification.Neutral</span>,<br />
+                                        {"      "}classificationReasoning: <span className="text-yellow-200">"Standup"</span><br />
+                                        {"    "}{"};"}<br />
                                         {"  "}{"}"}<br /><br />
-                                        {"  "}<span className="text-neutral-500">// GitHub is always productive</span><br />
-                                        {"  "}<span className="text-blue-400">if</span> (ctx.hostname.<span className="text-purple-300">includes</span>(<span className="text-yellow-200">"github.com"</span>)) {"{"}<br />
-                                        {"    "}<span className="text-blue-400">return</span> {"{"} classification: <span className="text-pink-400">Productive</span> {"}"}<br />
+                                        {"  "}<span className="text-neutral-500">// WhatsApp catch up for 5m every 20m</span><br />
+                                        {"  "}<span className="text-blue-400">if</span> (ctx.hostname.<span className="text-purple-300">includes</span>(<span className="text-yellow-200">"whatsapp"</span>)) {"{"}<br />
+                                        {"    "}<span className="text-blue-400">const</span> ok = ctx.minutesSinceLastBlock {">"} <span className="text-pink-400">20</span><br />
+                                        {"          && "} ctx.minutesUsedSinceLastBlock {"<"} <span className="text-pink-400">5</span>;<br />
+                                        {"    "}<span className="text-blue-400">if</span> (ok) {"{"}<br />
+                                        {"      "}<span className="text-blue-400">return</span> {"{"}<br />
+                                        {"        "}classification: <span className="text-pink-400">Classification.Neutral</span>,<br />
+                                        {"        "}classificationReasoning: <span className="text-yellow-200">"Break"</span><br />
+                                        {"      "}{"};"}<br />
+                                        {"    "}{"}"}<br />
                                         {"  "}{"}"}<br /><br />
-                                        {"  "}<span className="text-neutral-500">// Relax for 5m every 20m</span><br />
-                                        {"  "}<span className="text-blue-400">if</span> (ctx.minutesUsed {">"} <span className="text-pink-400">20</span>) {"{"}<br />
-                                        {"    "}<span className="text-blue-400">return</span> {"{"} classification: <span className="text-pink-400">Relax</span> {"}"}<br />
-                                        {"  "}{"}"}<br />
+                                        {"  "}<span className="text-blue-400">return undefined</span>;<br />
+                                        {"}"}<br /><br />
+                                        <span className="text-neutral-500">{"// Custom termination logic (blocking)"}</span><br />
+                                        <span className="text-blue-400">export function</span> <span className="text-purple-300">term</span>(ctx: <span className="text-teal-300">Context</span>) {"{"}<br />
+                                        {"  "}<span className="text-blue-400">return undefined</span>;<br />
                                         {"}"}
                                     </code>
                                 </pre>
