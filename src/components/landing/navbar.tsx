@@ -9,6 +9,7 @@ export function Navbar({ className }: { className?: string }) {
     const links = [
         { id: 'hero', label: 'Home' },
         { id: 'how-it-works', label: 'How it works' },
+        { id: 'programmable', label: 'Rules as Code' },
         { id: 'privacy', label: 'Data privacy' },
         { id: 'for-who', label: 'Audience' },
     ];
