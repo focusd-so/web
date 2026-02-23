@@ -17,7 +17,7 @@ export function FinalCTASection() {
                     variant="outline"
                     className="px-4 py-1.5 text-sm font-medium border-white/20 text-white/80 bg-white/5 mb-8"
                 >
-                    Public Beta
+                    Public Alpha
                 </Badge>
 
                 {/* Headline */}
