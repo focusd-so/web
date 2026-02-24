@@ -64,7 +64,7 @@ export function Navbar({ className }: { className?: string }) {
     return (
         <header
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4",
+                "fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 w-full",
                 className
             )}
         >
@@ -77,32 +77,40 @@ export function Navbar({ className }: { className?: string }) {
                             className="h-8 w-auto"
                         />
                     </a>
-                    <div className="flex items-center gap-2 relative">
-                        {/* Moving Pill */}
-                        <div
-                            className="absolute top-1/2 -translate-y-1/2 h-8 bg-white/10 rounded-full transition-all duration-300 ease-out pointer-events-none"
-                            style={{
-                                left: `${indicatorStyle.left}px`,
-                                width: `${indicatorStyle.width}px`,
-                                opacity: indicatorStyle.opacity,
-                            }}
-                        />
+                    <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2 relative overflow-x-auto hide-scrollbar sm:overflow-visible">
+                            {/* Moving Pill */}
+                            <div
+                                className="absolute top-1/2 -translate-y-1/2 h-8 bg-white/10 rounded-full transition-all duration-300 ease-out pointer-events-none"
+                                style={{
+                                    left: `${indicatorStyle.left}px`,
+                                    width: `${indicatorStyle.width}px`,
+                                    opacity: indicatorStyle.opacity,
+                                }}
+                            />
 
-                        {links.map((link, index) => (
-                            <a
-                                key={link.id}
-                                href={`#${link.id}`}
-                                ref={(el) => { navRefs.current[index] = el; }}
-                                className={cn(
-                                    "px-3 py-1.5 text-sm font-medium transition-colors relative z-10",
-                                    activeSection === link.id
-                                        ? "text-white"
-                                        : "text-white/70 hover:text-white"
-                                )}
-                            >
-                                {link.label}
-                            </a>
-                        ))}
+                            {links.map((link, index) => (
+                                <a
+                                    key={link.id}
+                                    href={`#${link.id}`}
+                                    ref={(el) => { navRefs.current[index] = el; }}
+                                    className={cn(
+                                        "px-3 py-1.5 text-sm font-medium transition-colors relative z-10 whitespace-nowrap",
+                                        activeSection === link.id
+                                            ? "text-white"
+                                            : "text-white/70 hover:text-white"
+                                    )}
+                                >
+                                    {link.label}
+                                </a>
+                            ))}
+                        </div>
+                        <a
+                            href="https://github.com/focusd-so/focusd/releases/latest/download/Focusd.dmg"
+                            className="bg-white text-black hover:bg-white/90 px-4 py-1.5 rounded-full text-sm font-semibold transition-colors flex items-center justify-center shrink-0 hidden sm:flex"
+                        >
+                            Download
+                        </a>
                     </div>
                 </div>
             </nav>

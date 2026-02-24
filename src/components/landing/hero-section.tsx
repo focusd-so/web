@@ -20,11 +20,7 @@ export function HeroSection() {
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1]">
-          Stay in flow.
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/70">
-            Ship without distractions.
-          </span>
+          Focused, m  ore intentional Mac experience.
         </h1>
 
         {/* Subheadline */}
