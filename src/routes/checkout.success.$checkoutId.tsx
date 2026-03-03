@@ -7,23 +7,53 @@ export const Route = createFileRoute("/checkout/success/$checkoutId")({
 
 function CheckoutSuccessPage() {
     const { checkoutId } = Route.useParams();
-    const [manualClick, setManualClick] = useState(false);
+    const [redirectStatus, setRedirectStatus] = useState<
+        "idle" | "pending" | "redirecting" | "completed" | "failed"
+    >("idle");
 
     useEffect(() => {
-        // Automatically redirect to the deeplink after a short delay
-        const timer = setTimeout(() => {
+        // Initial delay before first redirect attempt
+        setRedirectStatus("pending");
+        const initialTimer = setTimeout(() => {
+            setRedirectStatus("redirecting");
             const deeplink = `focusd://checkout/success?checkoutId=${checkoutId}`;
             window.location.href = deeplink;
-        }, 2000); // 2 second delay to let user see the thank you message
+        }, 2000);
 
-        return () => clearTimeout(timer);
+        // Fallback for when the redirect fails or app isn't installed
+        const failureTimer = setTimeout(() => {
+            setRedirectStatus((prev) =>
+                prev === "redirecting" ? "failed" : prev
+            );
+        }, 8000); // 2s initial delay + 6s to wait for redirect
+
+        // Detect if the user successfully left the page (presumably to the app)
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                setRedirectStatus("completed");
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            clearTimeout(initialTimer);
+            clearTimeout(failureTimer);
+            document.removeEventListener(
+                "visibilitychange",
+                handleVisibilityChange
+            );
+        };
     }, [checkoutId]);
 
     const deeplink = `focusd://checkout/success?checkoutId=${checkoutId}`;
 
     const handleManualClick = () => {
-        setManualClick(true);
+        setRedirectStatus("completed");
     };
+
+    const isLoaderVisible =
+        redirectStatus === "pending" || redirectStatus === "redirecting";
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4">
@@ -52,21 +82,27 @@ function CheckoutSuccessPage() {
                         Thank You! 🎉
                     </h1>
                     <p className="text-lg text-muted-foreground">
-                        Your purchase was successful. We're excited to have you on board!
+                        Your purchase was successful. We're excited to have you
+                        on board!
                     </p>
-                    {!manualClick && (
+                    {isLoaderVisible && (
                         <p className="text-sm text-muted-foreground">
                             Redirecting you back to the app...
+                        </p>
+                    )}
+                    {redirectStatus === "failed" && (
+                        <p className="text-sm text-yellow-500/80">
+                            Couldn't open the app automatically.
                         </p>
                     )}
                 </div>
 
                 {/* Loading Spinner */}
-                {!manualClick && (
-                    <div className="flex justify-center">
+                <div className="flex justify-center h-8">
+                    {isLoaderVisible && (
                         <div className="animate-spin w-6 h-6 border-3 border-primary border-t-transparent rounded-full" />
-                    </div>
-                )}
+                    )}
+                </div>
 
                 {/* Manual Link */}
                 <div className="pt-4 border-t border-border">
