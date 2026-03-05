@@ -20,7 +20,7 @@ export function HeroSection() {
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1]">
-          Focused, m  ore intentional Mac experience.
+          Focused, more intentional Mac experience.
         </h1>
 
         {/* Subheadline */}
