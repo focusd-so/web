@@ -42,6 +42,22 @@ export function HeroSection() {
             </a>
           </Button>
         </div>
+
+        {/* Alpha & Source Notes */}
+        <div className="flex flex-col items-center gap-2 pt-6 text-sm text-white/40">
+          <p>⚠️ Public alpha. Expect bugs and things to go wrong.</p>
+          <p>
+            Source code is available at{" "}
+            <a
+              href="https://github.com/focusd-so/focusd"
+              target="_blank"
+              rel="noreferrer"
+              className="underline hover:text-white/60 transition-colors"
+            >
+              github.com/focusd-so/focusd
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   );
