@@ -10,7 +10,7 @@ export function CookieConsentBanner({ onAccept, onReject }: Props) {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background p-4 shadow-lg md:left-4 md:right-4 md:bottom-4 md:rounded-lg md:max-w-2xl"
+      className="fixed bottom-0 left-0 right-0 z-50 w-full border-t bg-background p-4 shadow-lg"
     >
       <div className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">
