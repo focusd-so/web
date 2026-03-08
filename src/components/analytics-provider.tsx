@@ -52,16 +52,25 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
     }
   }, [mounted]);
 
-  const showBanner = mounted && consent === null;
-  const handleAccept = useCallback(() => setConsent("accepted"), [setConsent]);
-  const handleReject = useCallback(() => setConsent("rejected"), [setConsent]);
-
   return (
     <AnalyticsContext.Provider value={{ consent, setConsent, showBannerAgain }}>
       {children}
-      {showBanner && GA_ID && (
-        <CookieConsentBanner onAccept={handleAccept} onReject={handleReject} />
-      )}
     </AnalyticsContext.Provider>
+  );
+}
+
+export function HomepageCookieBanner() {
+  const ctx = useAnalytics();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted || !GA_ID || !ctx || ctx.consent !== null) return null;
+
+  return (
+    <CookieConsentBanner
+      onAccept={() => ctx.setConsent("accepted")}
+      onReject={() => ctx.setConsent("rejected")}
+    />
   );
 }
