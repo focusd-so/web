@@ -3,8 +3,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
-
-
+import { AnalyticsProvider } from "@/components/analytics-provider";
 import { createRouter } from "./router";
 
 // Create a new router instance
@@ -24,7 +23,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <RouterProvider router={router} />
+        <AnalyticsProvider>
+          <RouterProvider router={router} />
+        </AnalyticsProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

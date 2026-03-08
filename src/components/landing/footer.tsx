@@ -1,4 +1,8 @@
+import { useAnalytics } from "@/components/analytics-provider";
+
 export function Footer() {
+    const analytics = useAnalytics();
+
     return (
         <footer className="relative py-12 px-4 border-t border-white/5">
             <div className="absolute inset-0 bg-neutral-950 -z-10" />
@@ -19,6 +23,15 @@ export function Footer() {
 
                     {/* Links */}
                     <div className="flex items-center gap-6">
+                        {analytics && (
+                            <button
+                                type="button"
+                                onClick={analytics.showBannerAgain}
+                                className="text-sm text-white/40 hover:text-white/70 transition-colors"
+                            >
+                                Cookie preferences
+                            </button>
+                        )}
                         <a
                             href="mailto:hello@focusd.work"
                             className="text-sm text-white/40 hover:text-white/70 transition-colors"
