@@ -9,6 +9,7 @@ import {
   FinalCTASection,
   Footer,
 } from "@/components/landing";
+import { HomepageCookieBanner } from "@/components/analytics-provider";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -30,6 +31,7 @@ function HomePage() {
         <FinalCTASection />
       </main>
       <Footer />
+      <HomepageCookieBanner />
     </div>
   );
 }

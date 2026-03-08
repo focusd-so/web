@@ -8,7 +8,7 @@ export function CookieConsentBanner({ onAccept, onReject }: Props) {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed bottom-4 left-4 z-50 max-w-md rounded-xl border border-white/10 bg-neutral-900/95 px-5 py-4 shadow-2xl backdrop-blur-md"
+      className="fixed bottom-4 right-4 z-50 max-w-md rounded-xl border border-white/10 bg-neutral-900/95 px-5 py-4 shadow-2xl backdrop-blur-md"
     >
       <p className="text-sm leading-relaxed text-neutral-400">
         We use cookies for analytics to improve our site.{" "}
