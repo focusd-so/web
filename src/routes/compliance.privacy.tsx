@@ -79,6 +79,13 @@ function PrivacyPage() {
                 <li>Billing state and timestamps</li>
               </ul>
             </div>
+
+            <div className="space-y-2">
+              <h3 className="text-xl font-medium text-foreground">f. Website Analytics</h3>
+              <p className="text-foreground leading-relaxed">
+                Our website may use Google Analytics to understand how visitors use the site. We only load analytics after you consent via our cookie banner. You can change your preference at any time via the &quot;Cookie preferences&quot; link in the footer.
+              </p>
+            </div>
           </div>
 
           <p className="text-foreground leading-relaxed">
