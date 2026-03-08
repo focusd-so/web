@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 type Props = {
   onAccept: () => void;
   onReject: () => void;
@@ -10,25 +8,30 @@ export function CookieConsentBanner({ onAccept, onReject }: Props) {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed bottom-0 left-0 right-0 z-50 w-full border-t bg-background p-4 shadow-lg"
+      className="fixed bottom-4 left-4 z-50 max-w-md rounded-xl border border-white/10 bg-neutral-900/95 px-5 py-4 shadow-2xl backdrop-blur-md"
     >
-      <div className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">
-          We use cookies for analytics to improve our site. By continuing, you
-          agree to our use of cookies. See our{" "}
-          <a href="/privacy" className="underline hover:text-foreground">
-            Privacy Policy
-          </a>
-          .
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Button variant="outline" size="sm" onClick={onReject}>
-            Reject
-          </Button>
-          <Button size="sm" onClick={onAccept}>
-            Accept
-          </Button>
-        </div>
+      <p className="text-sm leading-relaxed text-neutral-400">
+        We use cookies for analytics to improve our site.{" "}
+        <a
+          href="/privacy"
+          className="text-neutral-300 underline underline-offset-2 hover:text-white"
+        >
+          Privacy Policy
+        </a>
+      </p>
+      <div className="mt-3 flex gap-2">
+        <button
+          onClick={onReject}
+          className="rounded-lg border border-white/10 px-4 py-1.5 text-sm text-neutral-400 transition-colors hover:border-white/20 hover:text-neutral-200"
+        >
+          Reject
+        </button>
+        <button
+          onClick={onAccept}
+          className="rounded-lg bg-white px-4 py-1.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-neutral-200"
+        >
+          Accept
+        </button>
       </div>
     </div>
   );
