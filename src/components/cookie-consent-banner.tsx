@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -17,9 +16,9 @@ export function CookieConsentBanner({ onAccept, onReject }: Props) {
         <p className="text-sm text-muted-foreground">
           We use cookies for analytics to improve our site. By continuing, you
           agree to our use of cookies. See our{" "}
-          <Link to="/privacy" className="underline hover:text-foreground">
+          <a href="/privacy" className="underline hover:text-foreground">
             Privacy Policy
-          </Link>
+          </a>
           .
         </p>
         <div className="flex flex-wrap gap-3">
